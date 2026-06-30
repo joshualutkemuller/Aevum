@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const modes = [
@@ -69,14 +69,93 @@ const calmTriggers = [
   },
 ]
 
+type SleepPhase = 'phase1' | 'phase2' | 'phase3' | 'phase4' | 'ended'
+
+const sleepTimerOptions: { label: string; minutes: number | null }[] = [
+  { label: '15 min', minutes: 15 },
+  { label: '30 min', minutes: 30 },
+  { label: '45 min', minutes: 45 },
+  { label: '60 min', minutes: 60 },
+  { label: '∞', minutes: null },
+]
+
+const sleepPhaseCopy: Record<SleepPhase, { title: string; body: string }> = {
+  phase1: {
+    title: 'Settling',
+    body: 'Rain on the paper roof becomes the bed. The koto motif fades. One soft "good night," then the voice is gone.',
+  },
+  phase2: {
+    title: 'Bed only',
+    body: 'Every discrete trigger is gone — just rain and a slow, low pad remain. Reverb lengthens. Light shifts from gold toward indigo.',
+  },
+  phase3: {
+    title: 'Thinning',
+    body: 'Rain thins to a soft patter. A temple bell still sounds, but the gap between rings only grows. The pad is one low drone.',
+  },
+  phase4: {
+    title: 'Last taper',
+    body: 'The last lantern dims on the black water. Volume tapers gently toward silence.',
+  },
+  ended: {
+    title: 'Asleep',
+    body: 'Silence. Tap anywhere on the scene to wake.',
+  },
+}
+
+function getSleepPhase(elapsedMinutes: number, totalMinutes: number | null): SleepPhase {
+  if (totalMinutes === null) {
+    if (elapsedMinutes < 1) return 'phase1'
+    if (elapsedMinutes < 3) return 'phase2'
+    return 'phase3'
+  }
+  const ratio = elapsedMinutes / totalMinutes
+  if (ratio >= 1) return 'ended'
+  if (ratio >= 0.9) return 'phase4'
+  if (ratio >= 0.55) return 'phase3'
+  if (ratio >= 0.15) return 'phase2'
+  return 'phase1'
+}
+
 function App() {
   const [activeMode, setActiveMode] = useState('Journey')
   const [sceneBeat, setSceneBeat] = useState<'beat1' | 'beat2' | 'beat3' | 'resolved'>('beat1')
   const [lastTrigger, setLastTrigger] = useState('Tap the shoji panel to begin the first Journey beat.')
   const [pulseKey, setPulseKey] = useState(0)
 
+  const [sleepTimerMinutes, setSleepTimerMinutes] = useState<number | null>(30)
+  const [sleepDisplay, setSleepDisplay] = useState<'dim' | 'audio'>('dim')
+  const [sleepRunning, setSleepRunning] = useState(false)
+  const [sleepElapsed, setSleepElapsed] = useState(0)
+  const [sleepWoke, setSleepWoke] = useState(false)
+
   const selectedMode = modes.find((mode) => mode.key === activeMode) ?? modes[1]
   const activeStage = sceneBeat === 'beat1' ? 1 : sceneBeat === 'beat2' ? 2 : sceneBeat === 'beat3' ? 3 : 4
+  const sleepPhase = getSleepPhase(sleepElapsed, sleepTimerMinutes)
+
+  useEffect(() => {
+    if (!sleepRunning || sleepPhase === 'ended') return
+    const interval = window.setInterval(() => {
+      setSleepElapsed((value) => value + 1)
+    }, 1000)
+    return () => window.clearInterval(interval)
+  }, [sleepRunning, sleepPhase])
+
+  const startSleep = () => {
+    setSleepElapsed(0)
+    setSleepWoke(false)
+    setSleepRunning(true)
+  }
+
+  const wakeFromSleep = () => {
+    setSleepRunning(false)
+    setSleepWoke(true)
+  }
+
+  const exitSleepSetup = () => {
+    setSleepRunning(false)
+    setSleepWoke(false)
+    setSleepElapsed(0)
+  }
 
   const handleShoji = () => {
     if (sceneBeat === 'beat1') {
@@ -156,77 +235,150 @@ function App() {
 
         <div className="prototype-layout">
           <div className="scene-card">
-            <div
-              className={`scene-frame ${sceneBeat === 'resolved' ? 'resolved' : sceneBeat === 'beat3' ? 'stage3' : sceneBeat === 'beat2' ? 'active' : ''}`}
-              onClick={activeMode === 'Journey' && sceneBeat === 'beat1' ? handleShoji : undefined}
-              role={sceneBeat === 'beat1' && activeMode === 'Journey' ? 'button' : undefined}
-              tabIndex={sceneBeat === 'beat1' && activeMode === 'Journey' ? 0 : undefined}
-            >
-              <div className="sky" />
-              <div className="pond" />
-              <div className={`path ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}>
-                <span className={`path-node start ${sceneBeat !== 'beat1' ? 'active' : ''}`} />
-                <span className={`path-node mid ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`} />
-                <span className={`path-node end ${sceneBeat === 'resolved' ? 'active' : ''}`} />
+            {activeMode === 'Sleep' ? (
+              <div
+                className={`scene-frame sleep-frame ${sleepRunning ? `sleep-${sleepPhase}` : ''} ${sleepDisplay === 'audio' && sleepRunning ? 'audio-only' : ''}`}
+                onClick={sleepRunning ? wakeFromSleep : undefined}
+                role={sleepRunning ? 'button' : undefined}
+                tabIndex={sleepRunning ? 0 : undefined}
+                aria-label={sleepRunning ? 'Tap to wake' : 'Sleep scene'}
+              >
+                {!sleepRunning ? (
+                  <div className="sleep-setup">
+                    {sleepWoke ? <p className="sleep-wake-note">You woke gently. The room is still low and warm.</p> : null}
+                    <p className="sleep-era-label">Edo Japan · The Floating Hour</p>
+                    <div className="sleep-field">
+                      <span>Timer</span>
+                      <div className="trigger-list">
+                        {sleepTimerOptions.map((option) => (
+                          <button
+                            key={option.label}
+                            type="button"
+                            className={`trigger-pill ${sleepTimerMinutes === option.minutes ? 'active' : ''}`}
+                            onClick={() => setSleepTimerMinutes(option.minutes)}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="sleep-field">
+                      <span>Display</span>
+                      <div className="trigger-list">
+                        <button
+                          type="button"
+                          className={`trigger-pill ${sleepDisplay === 'dim' ? 'active' : ''}`}
+                          onClick={() => setSleepDisplay('dim')}
+                        >
+                          Dim to black
+                        </button>
+                        <button
+                          type="button"
+                          className={`trigger-pill ${sleepDisplay === 'audio' ? 'active' : ''}`}
+                          onClick={() => setSleepDisplay('audio')}
+                        >
+                          Audio-only
+                        </button>
+                      </div>
+                    </div>
+                    <button type="button" className="reset-button" onClick={startSleep}>
+                      Begin Sleep
+                    </button>
+                  </div>
+                ) : (
+                  <div className="sleep-running">
+                    {sleepDisplay === 'dim' ? (
+                      <>
+                        <div className="pond" />
+                        <div className={`lantern lit sleep-lantern ${sleepPhase === 'phase4' || sleepPhase === 'ended' ? 'dimmed' : ''}`}>◌</div>
+                      </>
+                    ) : null}
+                    <div className="sleep-readout">
+                      <p className="sleep-phase-title">{sleepPhaseCopy[sleepPhase].title}</p>
+                      <p className="sleep-phase-body">{sleepPhaseCopy[sleepPhase].body}</p>
+                      <p className="sleep-timer-readout">
+                        {sleepTimerMinutes === null
+                          ? `${sleepElapsed} min settled · demo-paced`
+                          : `${Math.min(sleepElapsed, sleepTimerMinutes)} / ${sleepTimerMinutes} min · demo-paced`}
+                      </p>
+                      <p className="sleep-tap-hint">Tap anywhere to wake.</p>
+                    </div>
+                  </div>
+                )}
               </div>
-              {sceneBeat === 'resolved' ? (
-                <div className="resolution-overlay">
-                  <p>The era remembers itself.</p>
-                  <button type="button" className="reset-button" onClick={resetScene}>
-                    Replay Edo
-                  </button>
+            ) : (
+              <div
+                className={`scene-frame ${sceneBeat === 'resolved' ? 'resolved' : sceneBeat === 'beat3' ? 'stage3' : sceneBeat === 'beat2' ? 'active' : ''}`}
+                onClick={activeMode === 'Journey' && sceneBeat === 'beat1' ? handleShoji : undefined}
+                role={sceneBeat === 'beat1' && activeMode === 'Journey' ? 'button' : undefined}
+                tabIndex={sceneBeat === 'beat1' && activeMode === 'Journey' ? 0 : undefined}
+              >
+                <div className="sky" />
+                <div className="pond" />
+                <div className={`path ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}>
+                  <span className={`path-node start ${sceneBeat !== 'beat1' ? 'active' : ''}`} />
+                  <span className={`path-node mid ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`} />
+                  <span className={`path-node end ${sceneBeat === 'resolved' ? 'active' : ''}`} />
                 </div>
-              ) : null}
-              <button
-                type="button"
-                className={`shoji-panel ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'open' : ''}`}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleShoji()
-                }}
-                aria-label="Slide the shoji panel"
-              >
-                <span>shoji</span>
-              </button>
-              <button
-                type="button"
-                className={`lantern ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'lit' : ''}`}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleLantern()
-                }}
-              >
-                ◌
-              </button>
-              <button
-                type="button"
-                className="bell"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleTrigger(
-                    'A furin chime passes through the rain, soft and clear.',
-                  )
-                }}
-              >
-                ◌
-              </button>
-              <button
-                type="button"
-                className={`water ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleWater()
-                }}
-              >
-                ◌
-              </button>
-              <div key={pulseKey} className="pulse-ring" />
-            </div>
+                {sceneBeat === 'resolved' ? (
+                  <div className="resolution-overlay">
+                    <p>The era remembers itself.</p>
+                    <button type="button" className="reset-button" onClick={resetScene}>
+                      Replay Edo
+                    </button>
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  className={`shoji-panel ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'open' : ''}`}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    handleShoji()
+                  }}
+                  aria-label="Slide the shoji panel"
+                >
+                  <span>shoji</span>
+                </button>
+                <button
+                  type="button"
+                  className={`lantern ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'lit' : ''}`}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    handleLantern()
+                  }}
+                >
+                  ◌
+                </button>
+                <button
+                  type="button"
+                  className="bell"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    handleTrigger(
+                      'A furin chime passes through the rain, soft and clear.',
+                    )
+                  }}
+                >
+                  ◌
+                </button>
+                <button
+                  type="button"
+                  className={`water ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    handleWater()
+                  }}
+                >
+                  ◌
+                </button>
+                <div key={pulseKey} className="pulse-ring" />
+              </div>
+            )}
           </div>
 
           <div className="scene-sidebar">
             <div className="mode-switcher">
-              {['Journey', 'Calm'].map((mode) => (
+              {['Journey', 'Calm', 'Sleep'].map((mode) => (
                 <button
                   key={mode}
                   type="button"
@@ -238,7 +390,30 @@ function App() {
               ))}
             </div>
 
-            {activeMode === 'Journey' ? (
+            {activeMode === 'Sleep' ? (
+              <div className="scene-copy">
+                <h3>Sleep mode — hands-free</h3>
+                <p>
+                  Pick a timer and let the room thin on its own: triggers drop away first,
+                  then the bed simplifies, then light and sound taper to nothing. No
+                  interaction is required once it begins.
+                </p>
+                <p className="scene-status">
+                  {sleepRunning
+                    ? `${sleepPhaseCopy[sleepPhase].title} — ${sleepPhaseCopy[sleepPhase].body}`
+                    : 'Set the timer and display, then begin.'}
+                </p>
+                {sleepRunning ? (
+                  <button type="button" className="reset-button" onClick={wakeFromSleep}>
+                    Wake now
+                  </button>
+                ) : sleepWoke ? (
+                  <button type="button" className="reset-button" onClick={exitSleepSetup}>
+                    Back to Sleep setup
+                  </button>
+                ) : null}
+              </div>
+            ) : activeMode === 'Journey' ? (
               <div className="scene-copy">
                 <h3>
                   {sceneBeat === 'resolved'

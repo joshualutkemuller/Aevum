@@ -168,7 +168,7 @@
   cursor: pointer;
 }
 
-.scene-frame[role='button']::after {
+.scene-frame:not(.sleep-frame)[role='button']::after {
   content: 'Tap to begin';
   position: absolute;
   bottom: 18px;
@@ -191,6 +191,127 @@
 
 .scene-frame.resolved {
   background: linear-gradient(180deg, #5a6473 0%, #7b8f70 42%, #cfb370 100%);
+}
+
+.sleep-frame {
+  background: linear-gradient(180deg, #4f4030 0%, #7d6a4a 45%, #b09969 100%);
+  transition: background 1400ms ease;
+}
+
+.sleep-frame[role='button'] {
+  cursor: pointer;
+}
+
+.sleep-frame.sleep-phase2 {
+  background: linear-gradient(180deg, #393a55 0%, #4c4d63 45%, #6f6a76 100%);
+}
+
+.sleep-frame.sleep-phase3 {
+  background: linear-gradient(180deg, #1c1d30 0%, #232336 45%, #353142 100%);
+}
+
+.sleep-frame.sleep-phase4,
+.sleep-frame.sleep-ended {
+  background: #0c0c14;
+}
+
+.sleep-frame.audio-only {
+  background: #050507;
+}
+
+.sleep-setup {
+  position: relative;
+  height: 100%;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+  align-content: center;
+  color: #fff8f2;
+}
+
+.sleep-wake-note {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(255, 248, 242, 0.85);
+}
+
+.sleep-era-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: rgba(255, 248, 242, 0.7);
+}
+
+.sleep-field {
+  display: grid;
+  gap: 8px;
+}
+
+.sleep-field > span {
+  font-size: 0.85rem;
+  color: rgba(255, 248, 242, 0.75);
+}
+
+.sleep-field .trigger-pill {
+  background: rgba(255, 248, 242, 0.14);
+  color: #fff8f2;
+}
+
+.sleep-field .trigger-pill.active {
+  background: rgba(255, 226, 167, 0.9);
+  color: #4f4030;
+}
+
+.sleep-running {
+  position: absolute;
+  inset: 0;
+}
+
+.sleep-lantern {
+  right: auto;
+  left: 50%;
+  bottom: 56%;
+  transform: translateX(-50%);
+  transition: opacity 1400ms ease;
+}
+
+.sleep-lantern.dimmed {
+  opacity: 0.25;
+}
+
+.sleep-readout {
+  position: absolute;
+  inset: auto 24px 24px 24px;
+  display: grid;
+  gap: 6px;
+  color: #fff8f2;
+  text-align: center;
+}
+
+.sleep-phase-title {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: rgba(255, 248, 242, 0.7);
+}
+
+.sleep-phase-body {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.sleep-timer-readout {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: rgba(255, 248, 242, 0.6);
+}
+
+.sleep-tap-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(255, 248, 242, 0.5);
 }
 
 .sky {

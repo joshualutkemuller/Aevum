@@ -271,7 +271,7 @@ Each begins with the anchor so the LLM stays grounded. Pick one at a time.
 ---
 ## Later backlog
 - Implement the Calm mode interaction layer with per-trigger Foley, haptics, and generative calm audio logic.
-- Build Sleep mode with timer/dim controls, bed-rich sound, and safe low-motion transitions.
+- ~~Build Sleep mode with timer/dim controls, bed-rich sound, and safe low-motion transitions.~~ Done in the web prototype (`aevum-app`): timer (15/30/45/60/∞), dim-to-black vs. audio-only, and the §10.3 four-phase thinning curve (soften → bed-only → near-black taper → silence) with tap-to-wake. Text/visual only — no real audio yet, so still needs FMOD/Wwise integration below.
 - Integrate the vertical slice with FMOD/Wwise adaptive audio and stem-based mixing.
 - Validate the Edo chapter with user testing and calm-mode feedback.
 - Expand the pitch deck into publisher-facing speaker notes and Q&A responses.
@@ -288,3 +288,400 @@ Each begins with the anchor so the LLM stays grounded. Pick one at a time.
 - **Trigger-rich vs bed-rich** — the Calm-vs-Sleep sound-design principle.
 - **Impossible connection** — two points joining because they align on screen, not in 3D.
 - **Remembers itself** — the resolution beat when a solved era settles into light and harmony.
+
+---
+
+## 14. Task queue outputs — Round 1 (Tasks 1–8)
+
+---
+
+### 14.1 Renaissance beat 5 storyboard — "The Fresco Wall" (frame by frame)
+
+**Goal:** The Keeper enters a half-frescoed chapel apse. A gap in the floor breaks the path forward. A painted beam on the wet-plaster wall hints at a bridge — but only chalk-lining orthogonals from the vanishing point will make paint become load-bearing stone. Complete five orthogonals; the walkway solidifies; the dome (beat 6) is revealed.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Camera drifts into the apse from above; a single charcoal mark (the vanishing point) sits on bare wet plaster. The Keeper stands at the broken floor edge — the gap is visible, and a painted beam on the far wall hovers, unconnected, over it. A chalk-line on a peg is the only highlight. | Chapel hush; a candle gutters; a distant choir holds one soft note. | Establish the goal and the one affordance. |
+| 2 | Player takes the chalk-line and snaps it from the vanishing point to the first painted fragment. The line thwacks taut; the fragment's edge "agrees" — a sliver of painted beam thickens fractionally into stone, catching the light differently. | Crisp *snap-line* thwack; chalk-dust puff; a short low haptic snap. | Teach: a true orthogonal makes paint solid. |
+| 3 | Player tries snapping to a fragment at the wrong angle; the line stretches but goes slack, the paint stays flat and matte. No penalty — the chalk-line simply recoils to the peg, ready again. | A soft string-slack *fwp*; a gentle settle tone (no buzzer). | Teach: only true converging lines work; free to retry, never punished. |
+| 4 | Player notices the angle that "agreed" also lines up with a second fragment far down the wall, beyond what looked reachable. The "aha": the orthogonals form one network, not separate beams — the whole wall is a single convergence. | A soft bloom of reverb as the chapel seems to "open"; one far bell tolls once. | Reveal the perspective-network twist: the chapter's core illusion at full strength. |
+| 5 | Player snaps four more orthogonals in sequence. Each thickens a fragment into stone. Each correct line adds one sustained choir tone to the chord building in the room. | Layered *snap-line* thwacks; each adds one held choir note; haptic snap per line. | The puzzle proper — adaptive-audio payoff, choir chord builds with each correct line. |
+| 6 | The completed network resolves: all painted beams thicken into one continuous stone walkway spanning the gap. The transformation is a single slow motion — flat paint becomes load-bearing stone. | A low stone-settling groan; the chord resolves to a held major triad; reverb lengthens. | Impossible connection resolves: painted illusion made solid. |
+| 7 | Keeper crosses the walkway; footsteps shift from hollow echo to solid stone mid-step. Reaching the far wall, a tap completes the last orthogonal; wet plaster dries into permanence as golden light fills the apse from above. | Footsteps shift timbre as stone solidifies; one sustained organ chord; a single bell. | Resolution: the era remembers itself, painting set permanent. |
+| 8 | The dried fresco reveals the oculus of the dome ahead (links to beat 6). An hour-card ("Painting into the wall") surfaces, optional, softly whispered. Camera exhales back to take in the whole wall — the vanishing point now invisible, its work done. A diorama snapshot saves to Calm mode. | Whispered card (opt-in); ambient settles to fountain trickle + distant choir bed. | Reward, lore, transition, Calm-mode unlock. |
+
+Design notes: no fail state — wrong-angle lines go slack and recoil freely; if the player idles ~20s, the nearest true-orthogonal fragment catches a thin shaft of light. Nothing is timed. Every interaction binds visual + sound + haptic together (the rule in §0).
+
+---
+
+### 14.2 Hour-cards — Ancient Egypt: "The River and the Stone"
+
+*The shifting sand* — Engineers poured sand into sealed chambers beneath stone blocks, then let it drain through narrow slots; as the sand fell away, the stones lowered — slow, exact, and silent — into place.
+
+*Hieroglyphs* — Picture-signs that are also sounds: a single owl can mean a bird, or the letter "m," depending on how it sits beside its neighbours.
+
+*The ramp debate* — No one alive watched the pyramids rise; historians still argue whether it was one long straight ramp, a spiralling ramp hugging each face, or levers and sledges riding wetted sand.
+
+*The shaduf* — A pivot-arm with a heavy stone on one end and a bucket on the other; the counterweight does most of the lifting — the same balancing principle that may have helped raise the largest casing blocks.
+
+*The reed brush* — Scribes cut reeds to a fine point and dipped them in soot-and-water ink; the same gesture made a tax record, a love poem, or a prayer for the crossing into the afterlife.
+
+*Stone that echoes* — The empty chambers inside a pyramid hold a long, low standing-wave resonance that no ancient text explains — acoustics that seem to have happened, and then been left deliberately alone.
+
+*True north* — The Great Pyramid's sides align to true north within a fraction of a degree, sighted by the circling stars; no compass existed yet.
+
+*The Nile's gift* — Flood season stilled the farms for months each year, freeing a large, paid, well-fed workforce — the pyramids were almost certainly built on that window, not by slaves in chains.
+
+---
+
+### 14.3 FMOD / Wwise event list and RTPC sheet
+
+#### Global RTPCs
+
+| RTPC | Range | Driven by | Affects |
+|---|---|---|---|
+| `engagement` | 0–100 | +k per meaningful touch (Calm); decays to 0 in ~20–30 s idle | PAD layer count, MELODY gate, BED level fine-trim |
+| `progress` | 0–1 per chapter | Journey beat completions | ACCENT stinger variant, lighting parameter mirror |
+| `timeOfDay` | 0–1 (dawn → night) | Weather / time dial (Calm); chapter-fixed in Journey | BED set crossfade, musical key / palette |
+| `sleepTimer` | 0–1 (elapsed ÷ total); −1 = ∞ | Sleep mode countdown | Drives Sleep phase state machine (see below) |
+| `calmIntensity` | 0–1 (default 0.85) | Designer-tuned ceiling, not exposed to player | Multiplies PAD/MELODY send bus — enforces the "gentle ceiling, never intense" rule |
+| `reverbAmount` | 0–1 | Driven by sleepTimer phase 2 ramp | Wet/dry mix on the global reverb send |
+| `sleepFade` | 0–1 | sleepTimer phase 3–4 ramp | Master output taper to silence |
+| `gain_BED` … `gain_ACCENT` | 0–1 (default 0.8 each) | Per-category user slider (settings screen, §14.8) | Per-stem bus volume; persists across all three modes |
+| `gain_Pouring`, `gain_Water`, `gain_Brushing`, `gain_Sliding`, `gain_Ticking`, `gain_Tapping`, `gain_Chime`, `gain_Voice` | 0–1 (default 0.8 each) | Per-trigger-category user slider (misophonia controls) | Individual one-shot sub-bus volume |
+
+#### Event list
+
+**BED (looping, crossfaded)**
+
+| Event | Notes |
+|---|---|
+| `BED_Edo_Rain_Light / _Med / _Heavy` | Crossfade group; local `rainIntensity` RTPC (0–1) driven by `engagement` in Calm, by Sleep phase in Sleep |
+| `BED_Edo_RoomTone` | Always running at low level; provides the "room" for spatial events |
+| `BED_Edo_Wind_Bamboo` | Optional layer, keyed to `timeOfDay` > 0.6 |
+| `BED_Renaissance_Piazza` | Distant murmur, pigeons, flagstone ambience |
+| `BED_Renaissance_Fountain` | Continuous trickle; doubles as Sleep-mode primary BED element |
+| `BED_Renaissance_RoomTone_Cathedral` | Interior reverb bed |
+
+**PAD (looping, layered per engagement thresholds)**
+
+| Event | Threshold |
+|---|---|
+| `PAD_Edo_Low` | Always on (Calm start state); single drone |
+| `PAD_Edo_Mid` | `engagement` ≥ t1 = 25 |
+| `PAD_Edo_High` | `engagement` ≥ t2 = 55; capped by `calmIntensity` |
+| `PAD_Renaissance_Low / _Mid / _High` | Same thresholds, parallel set |
+
+**MELODY (one-shot phrases, quantized to a slow grid)**
+
+| Container | Contents | Gate condition |
+|---|---|---|
+| `MEL_Edo_Koto` | Phrases 01–06 (random, no-repeat) | `engagement` ≥ t2; quantized to 1-bar grid at 44 BPM feel |
+| `MEL_Edo_Shakuhachi` | Phrases 01–04 | Same gate; slightly sparser scheduler |
+| `MEL_Renaissance_Choir` | Phrases 01–06 | `engagement` ≥ t2 |
+| `MEL_Renaissance_Lute` | Phrases 01–04 | Same gate |
+
+Quantization: FMOD — use Music Tracks with Transition Markers at the bar boundary; Wwise — Music Segments with Exit Cue set to "Next Bar."
+
+**TRIGGER (discrete one-shots, spatialized; each carries a linked haptic envelope ID)**
+
+| Event | Haptic envelope | Category bus |
+|---|---|---|
+| `TRG_Edo_Shoji_Slide_Light`, `_Heavy` | Low slow pulse | `gain_Sliding` |
+| `TRG_Edo_PaperCrinkle` | Light grain | `gain_Sliding` |
+| `TRG_Edo_KoiSplash` | Soft swell | `gain_Water` |
+| `TRG_Edo_ShishiOdoshi_Clack` | Sharp tap | `gain_Tapping` |
+| `TRG_Edo_Furin_Glass`, `_Iron` | Light tick | `gain_Chime` |
+| `TRG_Edo_Geta_Stone`, `_Wood` | Crisp tap | `gain_Tapping` |
+| `TRG_Edo_Kettle_Pour` | Fine stipple | `gain_Pouring` |
+| `TRG_Renaissance_Quill_Scratch` | Light grain | `gain_Brushing` |
+| `TRG_Renaissance_Chisel_01/02/03` | Sharp tap (weight-scaled) | `gain_Tapping` |
+| `TRG_Renaissance_Dividers_Tick` | Crisp tick | `gain_Ticking` |
+| `TRG_Renaissance_Gears_Creak` | Low slow pulse | `gain_Sliding` |
+| `TRG_Renaissance_Pulley_Strain` | Low slow pulse | `gain_Sliding` |
+| `TRG_Renaissance_SnapLine_Thwack` | Short sharp snap | `gain_Tapping` |
+
+**ACCENT (one-shots, resolution-only)**
+
+| Event | Trigger |
+|---|---|
+| `ACC_Edo_TempleBell_Long` | Beat resolve + Sleep phase 3 interval fires |
+| `ACC_Edo_BeatResolve_Stinger` | Each of beats 1–5 |
+| `ACC_Edo_ChapterResolve` | Beat 6 / full Edo completion |
+| `ACC_Renaissance_ChoralSwell` | Beat resolve |
+| `ACC_Renaissance_ChapterResolve` | Dome completion |
+
+#### Calm-mode build logic
+
+```
+on session start:
+  play BED (full set) + PAD_Low. No melody.
+
+on meaningful_touch (any TRIGGER fires):
+  engagement += 12          // tune in playtest
+  play TRG_<object>         // + haptic callback
+
+engagement decays at –0.5 / s when no touch (resets to 0 in ~20–30 s)
+
+as engagement crosses thresholds:
+  t1 = 25  → fade in PAD_Mid over 800 ms
+  t2 = 55  → fade in PAD_High (× calmIntensity ceiling); open MELODY gate
+  t3 = 80  → richer harmonic content in PAD_High variant (swap to alt loop)
+
+PAD_High send = PAD_High_base × calmIntensity   // enforces gentle ceiling
+
+on idle (engagement < 5, sustained > 5 s):
+  fade out PAD_Mid + PAD_High over 1200 ms; close MELODY gate
+  return to BED + PAD_Low
+```
+
+#### Sleep-mode thinning curve (state machine driven by `sleepTimer`)
+
+| Phase | `sleepTimer` | Audio actions |
+|---|---|---|
+| **1 — Settling** | 0.00–0.15 | Close MELODY gate; fire `VO_GoodNight_<Era>` once; ramp `gain_Sliding`, `gain_Tapping`, `gain_Brushing`, `gain_Ticking`, `gain_Pouring` → 0 over the phase duration |
+| **2 — Bed only** | 0.15–0.55 | All TRIGGER sub-buses = 0; ramp `reverbAmount` 0→0.6 over 60 s; cross-fade `timeOfDay` toward night palette; lighting RTPC `colorTemp` gold→indigo (same RTPC, drives renderer too) |
+| **3 — Thinning** | 0.55–0.90 | Cross-fade BED to single primary element (BED_Edo_Rain_Med or BED_Renaissance_Fountain); re-fire ACC_<Era>_TempleBell_Long on a scheduler whose interval only ever *increases* (formula: `interval_n = interval_0 × 1.4^n`, starting at 90 s); thin PAD to PAD_Low only; begin `sleepFade` 0→0.3 taper |
+| **4 — Last taper** | 0.90–1.00 | Complete `sleepFade` 0.3→0 taper; screen → near-black |
+| **Ended** | 1.00 | Audio stopped. Await wake input. |
+
+**Hard rule enforcement:** TRIGGER and ACCENT buses are routed through a sidechain compressor keyed to the BED bus — BED is the sidechain source, one-shots are the detector target, with a hard ceiling ratio so no one-shot peak ever exceeds the current BED level. (Inverted from normal game mixing; Sleep mode requires it per §10.3.)
+
+**Wake:** `Sleep_WakeRequested` event crossfades `sleepFade` and all closed buses back to a fixed "low resting" snapshot over 2–3 s, independent of which phase was active.
+
+---
+
+### 14.4 Vertical-slice production schedule and budget — Edo chapter
+
+#### 12-week schedule
+
+| Weeks | Milestone |
+|---|---|
+| 1–2 | Pre-production: lock beat-by-beat design (§5 + §8 already complete); block all 6 beats as gray-box geometry in Unity URP; prototype screen-space connection logic on beat 1 (shoji → impossible walkway) |
+| 3–4 | Art pass: stylised low-poly modeling for veranda, still-water garden, moon-gate courtyard, paper house interior, torii tunnel, and lantern-release dock; dusk lighting palette established |
+| **Week 3** | **Foley recording session (1–2 days; see shot list below)** |
+| 4–5 | Audio integration: FMOD/Wwise project set up; BED / PAD / MELODY / TRIGGER / ACCENT events wired per §14.3; RTPC hookup to gameplay parameters |
+| 5–6 | Gameplay scripting: shoji slide-to-reorder logic (beat 4 core puzzle); moon-gate rotation (beat 3); Penrose-ascent torii loop (beat 5); lantern-release sequencing (beat 6) |
+| 6–7 | Calm mode: touch-anywhere triggers for Edo diorama; generative build logic (§10.2) wired to `engagement` RTPC |
+| 7–8 | Sleep mode: timer / dim / audio-only controls; §10.3 thinning curve wired to `sleepTimer`; wake flow |
+| 8–9 | Haptics: per-trigger envelopes (§10.6) mapped to platform haptic API |
+| 9–10 | Accessibility: reduced-motion toggle; per-category sound sliders; narration on/off; colorblind-safe pass (shape + position, no color-only reliance) |
+| 10–11 | Polish: idle-nudge pacing across all 6 beats (§14.6); VO recording for 8 hour-cards + "good night" line; final lighting / post pass |
+| 11 | Internal playtest + build the before/after calm self-report instrument (§11) |
+| 12 | External playtest round; bug fix; ship the slice |
+
+#### Budget assumptions
+
+*(§3 Q3/Q5 unresolved — costs below flag where decisions change the number)*
+
+| Line | Assumption |
+|---|---|
+| Unity gameplay engineer | 12 weeks; rate TBD per §3 Q5 (in-house vs. contractor) |
+| Stylised 3D artist | 8 weeks active (weeks 3–10 overlap) |
+| Audio / Foley co-lead | 6 weeks — includes 2-day field session + FMOD integration; this hire is the single highest-risk gap per §9 slide 11 |
+| Foley recording session | 1–2 day location / studio day-rate + portable recorder rental if not owned (shotgun + contact mic minimum) |
+| VO narrator | Half-day session: 8 hour-card whispers + 1 "good night" line + optional sunrise wake line |
+| FMOD / Wwise licence | Free indie tier likely sufficient at this scale; confirm ceiling before FMOD Studio Pro |
+| Playtest incentives | Small thank-you for 8–12 external playtesters for the before/after calm self-report round |
+| **Flag** | Real figures depend on §3 Q3 (funding route) and Q5 (team model); this schedule assumes a ~3-person core: 1 engineer, 1 artist, 1 audio lead, with the existing design output in this brief |
+
+#### Foley recording shot list (Edo chapter, §5)
+
+| Category | Items to record | Setup notes |
+|---|---|---|
+| **Sliding / wood** | Shoji slide — light and heavy; paper crinkle; *geta* sandals on stone; *geta* on wood | Build a practical shoji rig: wooden track + stretched washi panel on a hard floor. Close-mic with a cardioid at the panel face + a contact/piezo mic on the track rail to capture the woody transient. Record 5–6 takes of each weight. |
+| **Water** | Rain on paper/thatch — 3 intensities (light patter, medium, driving); water trickle; drip into still water; kettle pour | Angle a real washi-and-thatch panel at ~30° for the rain source; vary distance for the three intensities. Record the trickle from a small vessel, not a tap — plastic resonance reads wrong. |
+| **Stone / metal** | *Shishi-odoshi* bamboo-on-stone clack; *furin* wind-bell (glass and iron, separately); stone lantern scrape; koi splash | Source or borrow a real *furin* pair if budget allows — the glass vs. iron timbre is distinct and hard to synth convincingly. Record the *furin* in a naturally reverberant outdoor space for the long free-decay tail needed in Sleep mode. |
+| **Tonal / instrument** | *Koto* pluck (single notes + short phrases); *shakuhachi* breath-flute (breathy attacks + sustained tones); deep *bonshō* temple bell (record at multiple distances for the very long decay) | Hire players if budget allows — these are MELODY-stem source material and the highest identity-defining recordings in the session. Record the *bonshō* in as large / reverberant a space as accessible. |
+| **Ambience** | Evening crickets; wind through bamboo grove | Field-record on location if feasible; high-quality library supplement otherwise. These are BED-stem material and less identity-critical than the named props. |
+
+**Mic kit minimum:** shotgun mic (general close work), contact/piezo mic (track rails, kettle, stone surfaces), portable recorder with ≥2 clean preamps. Record everything dry with a separate room-tone take — all reverb treatment is applied in FMOD/Wwise per §14.3, not baked into the source files.
+
+---
+
+### 14.5 Pitch deck — speaker notes and hard-question prep
+
+*Notes are written for spoken delivery at ~27 s per slide, totalling ~5 minutes for 11 slides.*
+
+**Slide 1 — Title**
+"Aevum is a calm puzzle game you breathe with. We're going to show you three things in the next five minutes: a real gap in the market, a design that fills it in an entirely new way, and why we're the team to build it."
+
+**Slide 2 — The opportunity**
+"Calm games are one of the most resilient genres on mobile and Switch — Monument Valley, GRIS, Alba have all done extremely well. But here's the gap: almost none of them are ASMR-first, and none double as a real sleep companion. ASMR on YouTube draws hundreds of millions of monthly views. That audience exists, is large, and is underserved by games. Aevum is built for them."
+
+**Slide 3 — What it is**
+"Impossible-geometry puzzles, one historical era per chapter — Edo Japan, Renaissance Italy, and so on. No fail state, no timer, no score. The player cannot permanently get stuck. And history is whispered in, three tiers deep, entirely opt-in."
+
+**Slide 4 — The hook (three states)**
+"The differentiator is the three-state structure: Journey for story, Calm for fidget-and-unwind, Sleep for falling asleep to an era. Calm and Sleep are built on opposite sound design — Calm is trigger-rich and interactive; Sleep is bed-rich and hands-free. That's not a skin on top of the game. It's a distinct product within the same content."
+
+**Slide 5 — Why it relaxes**
+"The key design lock: the puzzle object and the ASMR trigger are the same thing. In Edo, you slide a paper screen — that's both the mechanic and the sound. In Renaissance, you snap a chalk-line to a vanishing point — that's the puzzle and the satisfying crack. Everything is backed by synced haptics and per-trigger sound controls, including misophonia-safe category muting."
+
+**Slide 6 — Look and feel**
+"Soft low-poly, pastel era palettes that warm across time — Edo at dusk, Renaissance at golden hour. Think Monument Valley's silhouette clarity with a handmade warmth. [show concept art here]"
+
+**Slide 7 — Content**
+"8–10 eras at launch, expandable as paid era packs. Two lead chapters fully designed and partially prototyped: Edo Japan and Renaissance Italy. The impossible-geometry toolkit, the adaptive audio pipeline, and the three-state structure are all chapter-agnostic — new eras drop in."
+
+**Slide 8 — Audience and ethics**
+"All ages, explicitly no streaks, no FOMO, no ads. This is a product a parent hands a child, or a clinician recommends to a patient. It's also a product that earns trust and gets recommended precisely because it doesn't try to manipulate the player — and that trust is the moat."
+
+**Slide 9 — Business**
+"Premium one-time purchase, era packs as expansions. Strong natural fit for Switch, Steam, and Apple Arcade — each of those platforms has rewarded calm, premium-feel games. Optional, tasteful sleep-content angle is a second positioning we can develop post-launch without changing the core product."
+
+**Slide 10 — Roadmap and ask**
+"Phase 0 is a vertical slice — one era, end to end, with real field-recorded Foley and adaptive audio, 4–6 beats, user-tested with a before/after calm self-report. It answers two questions: does the ASMR loop actually relax people, and does impossible-geometry-by-era hold attention without urgency? We're bringing that to you [insert ask: funding / publishing deal / platform commitment]."
+
+**Slide 11 — Team**
+"We have design, production, and the brief locked. The two critical hires are a co-lead audio/Foley designer — who is as much a co-creator as a sound engineer — and a Unity gameplay engineer. [introduce team]. The ask also covers making those hires."
+
+---
+
+#### Three slides most likely to draw hard questions
+
+**Slide 2 — "The opportunity" (the market claim)**
+
+*Hard question:* "Monument Valley has been out for ten years. Alba, GRIS, and a dozen others exist. Why hasn't anyone done ASMR-first already — is there actually a gap, or is there a reason it doesn't work?"
+
+*Answer:* The gap exists because ASMR and games have almost never been designed together from first principles — ASMR content lives on YouTube, games have borrowed its aesthetic as a skin (lo-fi backgrounds, soft palettes) without treating the trigger as the game mechanic. The one-sentence case: there is a hundred-million-view audience on YouTube that comes back every night to fall asleep to ASMR; not one game has a dedicated sleep companion mode built on real ASMR sound design, not spa music. The sleep angle is the unlock, because sleep is a use-case games have almost entirely ignored. Monument Valley doesn't have a sleep timer. Alba doesn't have a thinning soundscape. We do.
+
+**Slide 9 — "Business" (monetization specifics)**
+
+*Hard question:* "Premium + era packs on mobile is a hard sell right now. Have you considered subscription, or going free-to-play with a soft paywall?"
+
+*Answer:* The locked no-dark-patterns decision (§2) is a feature, not a constraint — it's the reason the sleep use-case is credible. A F2P or subscription model on a sleep app creates an anxiety loop: "do I still have this tomorrow?" Premium one-time purchase removes that entirely, and that purity is part of the pitch to Apple Arcade / Switch, both of which have rewarded premium calm games (Monument Valley 1 & 2 together are over 150M downloads at paid price points). A tasteful optional subscription for new sleep dioramas / seasonal content is viable post-launch, but only after the premium trust base is established. We won't compromise §2 to close a deal.
+
+**Slide 10 — "Roadmap and ask" (the blank)**
+
+*Hard question:* "You have a prototype and a doc. What have you actually built, and what are you asking for specifically?"
+
+*Answer:* We have a fully designed and playable web vertical slice of the Edo chapter — 3 beats interactive, Calm mode with triggers, Sleep mode with timer and thinning curve, built and running. The ask for Phase 0 is [specific figure / resource / deal structure — fill in before pitch]. Phase 0 produces a Unity build with real field-recorded Foley, adaptive audio, 6 beats, and a playtest cohort with before/after calm self-reports. That is the proof-of-concept that de-risks Phase 1 for both sides. We are not asking you to fund a full game — we are asking you to fund the evidence.
+
+---
+
+### 14.6 Hint / idle-nudge pacing — all six Edo beats (no-fail rule)
+
+**General principle:** three tiers of nudge, all non-blocking, all reset instantly on any player action. The game never auto-solves and never penalises. Idle is not failure — some players are looking, reading, or resting.
+
+| Beat | What "idle" means | Tier 1 (~20 s) | Tier 2 (~45 s) | Tier 3 (~90 s) | No-fail guarantee |
+|---|---|---|---|---|---|
+| **1. Sliding veranda** | The shoji panel untouched | The panel pulses with a warm edge-glow | Pulse repeats + a single soft *shhk* preview plays from the panel, unprompted | Camera drifts slowly to frame the shoji and the gap beyond, holds 2 s, returns | Only one interactive object exists at this beat; there is no "wrong" choice |
+| **2. Still-water garden** | The pond surface untouched | Pond gets a faint circular ripple-glow from its centre | Ripple-glow + one gentle koi-plip sound plays on its own | Camera drifts to the pagoda's reflection and lingers briefly | Calming the pond has no fail state — it only settles, never breaks |
+| **3. Moon gate** | Rings untouched, or stalled mid-rotation for 20 s | Stone rings get a soft directional highlight on their leading edge | Highlight + a faint stone-grind preview plays in the correct rotation direction | Camera drifts along the arc the rings need to travel, returns | Rings rotate freely in either direction and wrap; no position is permanently wrong |
+| **4. The paper house** | No screen slid for 20 s, or the same non-progressing screen slid repeatedly | The single screen that advances the lantern room pulses warm (per §8 design notes) | Pulse repeats + that screen's *shhk* plays once, unprompted | Camera drifts toward the unlit lantern room to remind the player of the goal | Any screen can be slid back; idle nudge never forces or blocks a slide |
+| **5. Torii ascent** | No gate passed for 20 s | The next gate in the ascending loop gets a soft warm halo | Halo + the breathing-bridge pacing cue (the slow in/out breath sound) gently emphasises the rhythm | Camera holds a slow upward drift through the next gate | Gates lead only forward at the player's own pace; the loop has no timer and no backward failure |
+| **6. Lantern release** | No lantern floated for 20 s | The next unlit lantern pulses a warm amber | Pulse + a single far koto note plays unprompted | Camera drifts to the reflection point where the floating lanterns will complete the pattern | Lanterns may be floated in any order that still resolves the reflection; partial completion is always valid |
+
+**Shared rules across all beats:**
+- Every nudge is visual + audio only (no gameplay-state change, no text prompt, no spoken instruction).
+- Any player interaction — even touching the wrong object — resets the idle counter to zero. Exploration is never penalised.
+- Tier 3 camera drift is always ≤3 s and always returns full control to the player; it cannot be triggered if the player is mid-interaction.
+- No Tier 4 exists. The game does not solve puzzles for players.
+
+---
+
+### 14.7 Six additional eras — era-pack pipeline
+
+| Era | Architecture & signature illusion | ASMR palette | Learning hook | Lore hook |
+|---|---|---|---|---|
+| **Classical Greece — "The Reasoned Forum"** | Marble agora & colonnades; *entasis* — columns are subtly curved to look perfectly straight from the standing viewer's angle; puzzle: apply the optical correction curves so distant columns read as vertical | Chisel on marble, olive-press creak, sea breeze, distant kithara | Euclidean geometry, democracy & the agora | "The columns aren't straight — they only look that way from exactly where you're meant to stand." |
+| **Maya — "The Long Count"** | Stepped pyramids; the equinox shadow-serpent (a real light-and-shadow effect at Chichen Itzá); puzzle: align shadow segments across pyramid steps to build a serpent of light at the solstice angle | Hand-clap echo (the pyramid's quetzal-bird chirp), jade beads, copal crackle, distant rain | The Long Count calendar, Maya astronomy | "Clap once at the base of the steps, and the pyramid answers back — the echo sounds exactly like a sacred bird." |
+| **Viking Age Scandinavia — "The Knotted Fjord"** | Longhouse + interlace woodcarving; puzzle: trace a single unbroken path through Borre-style knotwork that reorganises the longhouse interior — the path has no beginning and no end | Rope creak, wood-chisel carving, fjord water, hearth-fire crackle | Runic writing, longship navigation | "Viking knotwork has no starting point because the carver never wanted you to find one." |
+| **Mughal India — "The Mirrored Garden"** | Charbagh four-part garden + Taj-style reflecting pool; puzzle: restore only one quadrant of the garden — the water mirrors it into the whole; impossible symmetry (the reflection is perfect even when the geometry isn't) | Marble-inlay tap, water-channel trickle, peacock call, garden breeze | Charbagh garden design (paradise in four rivers), Mughal-Persian fusion architecture | "A charbagh garden is built in quarters on purpose — paradise, in Persian tradition, always arrived in four rivers." |
+| **Mali Empire / Timbuktu — "The Salt and the Page"** | Mudbrick madrasa & manuscript libraries; puzzle: unfold mudbrick walls like the pages of a manuscript codex — rooms open in sequence like a book being read, echoing Edo's shoji but as bound pages | Vellum page turns, reed-pen scratch, market-cloth rustle, distant call and hand drum | The Timbuktu manuscripts, trans-Saharan salt-and-gold trade | "Paper was sometimes worth more than salt, carried camel-back across the Sahara — and the libraries that held it contained hundreds of thousands of books." |
+| **Inca Empire — "The Stone That Needs No Mortar"** | Machu Picchu dry-stone terracing; puzzle: rotate and slide irregular ashlar blocks until their faces interlock exactly — a jigsaw of stone that needs no mortar, locking with a satisfying fit | Stone-on-stone grinding fit, llama bell, mountain wind, aqueduct trickle | Quipu knot record-keeping, the Inca road system | "Inca masons shaped stones so exactly that, five centuries later, a knife blade still can't slip between them." |
+
+---
+
+### 14.8 Accessibility and sound-settings screen
+
+*A complete screen spec. Each setting persists per-user and applies across all three modes unless noted.*
+
+---
+
+#### Section 1 — Sound
+
+*"Each sound category can be adjusted or muted independently. This is an ASMR-first game — some sounds work for you, others don't. Tune it to your ears."*
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Master volume | Slider 0–100 % | 80 % | Overall output level |
+| Pouring & granular | Slider + mute toggle | 80 % / on | Sand, pigment grind, kettle pour |
+| Water | Slider + mute toggle | 80 % / on | Trickle, fountain, rain, koi; kept in Sleep by default |
+| Brushing & scratching | Slider + mute toggle | 80 % / on | Quill, fresco brush, charcoal |
+| Sliding & folding | Slider + mute toggle | 80 % / on | Shoji, paper, gears |
+| Ticking & ratchet | Slider + mute toggle | 80 % / on | Gears, wooden dividers |
+| Tapping & clacking | Slider + mute toggle | 80 % / on | Chisel, *shishi-odoshi*, footsteps |
+| Chimes & bells | Slider + mute toggle | 80 % / on | *Furin*, campanile; intervals lengthen in Sleep |
+| Voice & whisper | Slider + mute toggle | 80 % / on | Lore narration, "good night" line |
+
+*Mute toggle is separate from the slider so a quick re-enable restores the prior level rather than snapping to 80 %.*
+
+---
+
+#### Section 2 — Narration
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Read hour-cards aloud | Toggle | On | The soft close-mic whisper triggered on card tap |
+| Ambient lore whispers | Toggle | On | Occasional unprompted ambient narration during Journey |
+| Narration volume | Slider | Inherits Voice & whisper slider above | Separate label for clarity |
+
+---
+
+#### Section 3 — Haptics
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Haptics | Master toggle | On (Off in Sleep by default per §10.6) | |
+| Intensity — sharp (taps, ticks) | Low / Med / High | Med | Covers Tapping / Ticking categories |
+| Intensity — sustained (slides, swells) | Low / Med / High | Med | Covers Sliding / Water categories |
+| Intensity — fine (granular, grain) | Low / Med / High | Med | Covers Pouring / Brushing categories |
+
+*Sleep-mode haptics default to Off; the toggle is also accessible from the Sleep setup screen (§14.8, Sleep section below) for players who want gentle haptic feedback while dozing.*
+
+---
+
+#### Section 4 — Motion & visuals
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Reduced motion | Toggle | Mirrors OS-level setting; defaults On if the OS requests it | Per §2 locked decision: "reduced-motion respected by default." Reduces parallax, scroll animation, and transition motion — puzzle interactions are unaffected |
+| Brightness | Slider 0–100 % | System default | Overlays on display brightness; Sleep mode dims further via its own thinning curve |
+| Text size | Small / Medium / Large / X-Large | Medium | Scales all UI text including hour-cards and scene-status copy |
+| High-contrast outlines | Toggle | Off | Adds visible shape-outline to all interactive objects; supplements the colorblind-safe palette (never color alone, per §4) |
+| One-handed mode | Toggle | Off | Remaps all interactions to a single reachable zone (right or left, configurable); swipe direction adjusted accordingly |
+
+---
+
+#### Section 5 — Breathing guide
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Show breathing guide | Toggle | Off | A slow visual pulse (ring or soft glow) tied to a simple in / out cadence |
+| Haptic with guide | Toggle | Off (only visible when guide is On) | Adds a low slow pulse haptic on each in / out beat |
+| Pacing | Slow (4 s in / 6 s out) / Slower (5 s in / 7 s out) | Slow | Available in Calm and Sleep modes; not shown during Journey puzzles to avoid distraction |
+
+---
+
+#### Section 6 — Sleep mode defaults
+
+*These defaults apply each time the player opens Sleep mode; they can always be changed on the Sleep setup screen before a session begins.*
+
+| Control | Type | Default | Notes |
+|---|---|---|---|
+| Default timer | 15 / 30 / 45 / 60 min / ∞ | 30 min | |
+| Default display | Dim to black / Audio-only | Dim to black | |
+| Sunrise wake | Toggle | Off | When On: on wake, fades screen + birdsong/ambient over ~90 s before full brightness |
+| Haptics during Sleep | Toggle | Off | Overrides the master haptics setting for Sleep sessions only |
+
+---
+
+#### Section 7 — About / safety footer
+
+- *Aevum has no ads, no streaks, no timers, and no way to fail.* It will never send you a notification asking you to return.
+- **Reset all sound settings to defaults** — one tap, confirmation dialog.
+- **Accessibility feedback** — link to support / feedback channel.
+
+---
