@@ -26,16 +26,14 @@ const chapters = [
   {
     title: 'Edo Japan',
     subtitle: 'The Floating Hour',
-    description:
-      'Rain on paper, sliding shoji, and reflections that become paths.',
+    description: 'Rain on paper, sliding shoji, and reflections that become paths.',
     accent: 'Rain • Paper • Water',
   },
   {
     title: 'Renaissance Italy',
     subtitle: 'The Vanishing Point',
-    description:
-      'Perspective becomes architecture as the world resolves from one angle.',
-    accent: 'Quill • Marble • Fountains',
+    description: 'Perspective becomes architecture as the world resolves from one angle.',
+    accent: 'Quill • Marble • Stone',
   },
 ]
 
@@ -54,22 +52,8 @@ const pillars = [
   },
 ]
 
-const calmTriggers = [
-  {
-    label: 'Lantern',
-    description: 'A paper lantern warms the room and settles the rain.',
-  },
-  {
-    label: 'Wind-bell',
-    description: 'The furin rings once, then the air feels cooler.',
-  },
-  {
-    label: 'Water',
-    description: 'A ripple spreads across the pond and the reflection deepens.',
-  },
-]
-
 type SleepPhase = 'phase1' | 'phase2' | 'phase3' | 'phase4' | 'ended'
+type Chapter = 'edo' | 'renaissance'
 
 const sleepTimerOptions: { label: string; minutes: number | null }[] = [
   { label: '15 min', minutes: 15 },
@@ -79,26 +63,144 @@ const sleepTimerOptions: { label: string; minutes: number | null }[] = [
   { label: '∞', minutes: null },
 ]
 
-const sleepPhaseCopy: Record<SleepPhase, { title: string; body: string }> = {
-  phase1: {
-    title: 'Settling',
-    body: 'Rain on the paper roof becomes the bed. The koto motif fades. One soft "good night," then the voice is gone.',
+interface ChapterContent {
+  title: string
+  subtitle: string
+  heroCallout: string
+  sectionTitle: string
+  beat1Title: string
+  beat1Desc: string
+  beat2Title: string
+  beat2Desc: string
+  beat3Title: string
+  beat3Desc: string
+  resolvedDesc: string
+  status: Record<'beat1' | 'beat2' | 'beat3' | 'resolved', string>
+  stageLabels: { title: string; label: string; stage: number }[]
+  calmTitle: string
+  calmDesc: string
+  calmTriggers: { label: string; description: string }[]
+  shojiLabel: string
+  shojiAria: string
+  replayLabel: string
+  sleepEraLabel: string
+  sleepPhase: Record<SleepPhase, { title: string; body: string }>
+}
+
+const chapterContent: Record<Chapter, ChapterContent> = {
+  edo: {
+    title: 'Edo Japan',
+    subtitle: 'The Floating Hour',
+    heroCallout: 'Slide the shoji and light the lantern.',
+    sectionTitle: 'Edo Japan — The Floating Hour',
+    beat1Title: 'Beat 1 — The sliding veranda',
+    beat1Desc: 'A single shoji panel is all the room asks for. Slide it once to reveal the walkway hidden by the paper wall.',
+    beat2Title: 'Beat 2 — Lantern release',
+    beat2Desc: 'The path is opening. Light the lantern to guide the reflection and bring the garden closer.',
+    beat3Title: 'Beat 3 — Reflection release',
+    beat3Desc: 'The water is almost calm. Tap the pond to settle the last reflection and complete the scene.',
+    resolvedDesc: 'The scene has resolved. Light returns, sound settles, and the era remembers itself.',
+    status: {
+      beat1: 'Tap the shoji panel to begin the first Journey beat.',
+      beat2: 'Tap the lantern to continue the second beat.',
+      beat3: 'Tap the water to finish the reflection.',
+      resolved: 'The era remembers itself: light returns, the rain settles, and the world exhales.',
+    },
+    stageLabels: [
+      { title: 'Beat 1', label: 'Slide shoji', stage: 1 },
+      { title: 'Beat 2', label: 'Light lantern', stage: 2 },
+      { title: 'Beat 3', label: 'Settle water', stage: 3 },
+    ],
+    calmTitle: 'Calm mode — touch the room',
+    calmDesc: 'The scene answers each touch with a small, satisfying reward: lantern light, a bell, or a ripple.',
+    calmTriggers: [
+      { label: 'Lantern', description: 'A paper lantern warms the room and settles the rain.' },
+      { label: 'Wind-bell', description: 'The furin rings once, then the air feels cooler.' },
+      { label: 'Water', description: 'A ripple spreads across the pond and the reflection deepens.' },
+    ],
+    shojiLabel: 'shoji',
+    shojiAria: 'Slide the shoji panel',
+    replayLabel: 'Replay Edo',
+    sleepEraLabel: 'Edo Japan · The Floating Hour',
+    sleepPhase: {
+      phase1: {
+        title: 'Settling',
+        body: 'Rain on the paper roof becomes the bed. The koto motif fades. One soft "good night," then the voice is gone.',
+      },
+      phase2: {
+        title: 'Bed only',
+        body: 'Every discrete trigger is gone — just rain and a slow, low pad remain. Reverb lengthens. Light shifts from gold toward indigo.',
+      },
+      phase3: {
+        title: 'Thinning',
+        body: 'Rain thins to a soft patter. A temple bell still sounds, but the gap between rings only grows. The pad is one low drone.',
+      },
+      phase4: {
+        title: 'Last taper',
+        body: 'The last lantern dims on the black water. Volume tapers gently toward silence.',
+      },
+      ended: {
+        title: 'Asleep',
+        body: 'Silence. Tap anywhere on the scene to wake.',
+      },
+    },
   },
-  phase2: {
-    title: 'Bed only',
-    body: 'Every discrete trigger is gone — just rain and a slow, low pad remain. Reverb lengthens. Light shifts from gold toward indigo.',
-  },
-  phase3: {
-    title: 'Thinning',
-    body: 'Rain thins to a soft patter. A temple bell still sounds, but the gap between rings only grows. The pad is one low drone.',
-  },
-  phase4: {
-    title: 'Last taper',
-    body: 'The last lantern dims on the black water. Volume tapers gently toward silence.',
-  },
-  ended: {
-    title: 'Asleep',
-    body: 'Silence. Tap anywhere on the scene to wake.',
+  renaissance: {
+    title: 'Renaissance Italy',
+    subtitle: 'The Vanishing Point',
+    heroCallout: 'Find the vanishing point and make paint into stone.',
+    sectionTitle: 'Renaissance Italy — The Vanishing Point',
+    beat1Title: 'Beat 1 — The apprentice\'s easel',
+    beat1Desc: 'The colonnade is broken. Move the viewpoint until the perspective lines converge and the fragments align at the vanishing point.',
+    beat2Title: 'Beat 2 — The anamorphic floor',
+    beat2Desc: 'The floor is distorted shapes that mean nothing from above. Find the oblique angle where they resolve into a staircase.',
+    beat3Title: 'Beat 3 — The vanishing stair',
+    beat3Desc: 'The stair only extends while you move. Walk it — top and bottom are the same point.',
+    resolvedDesc: 'The perspective holds. The geometry is permanent. The era remembers itself.',
+    status: {
+      beat1: 'Tap the easel to rotate the viewpoint and align the colonnade.',
+      beat2: 'Tap the floor to find the oblique angle.',
+      beat3: 'Tap the stair to ascend — it extends as you walk.',
+      resolved: 'The era remembers itself: the dome is lit, the stone is warm, and the geometry holds.',
+    },
+    stageLabels: [
+      { title: 'Beat 1', label: 'Align viewpoint', stage: 1 },
+      { title: 'Beat 2', label: 'Find angle', stage: 2 },
+      { title: 'Beat 3', label: 'Ascend stair', stage: 3 },
+    ],
+    calmTitle: 'Calm mode — the bottega',
+    calmDesc: 'The workshop at dusk answers each touch with a close, dry sound: quill on parchment, dividers on stone, chalk on a snap-line.',
+    calmTriggers: [
+      { label: 'Quill', description: 'A quill scratches across dry parchment, unhurried and exact.' },
+      { label: 'Snap-line', description: 'The chalk snap-line thwacks taut across the stone floor.' },
+      { label: 'Dividers', description: 'Wooden dividers tick a measurement on the stone — quiet, precise.' },
+    ],
+    shojiLabel: 'easel',
+    shojiAria: 'Rotate the viewpoint at the easel',
+    replayLabel: 'Replay Renaissance',
+    sleepEraLabel: 'Renaissance Italy · The Vanishing Point',
+    sleepPhase: {
+      phase1: {
+        title: 'Settling',
+        body: 'The organ pedal tone and a slow choir breath become the bed. The lute motif fades. One soft "good night," then the voice is gone.',
+      },
+      phase2: {
+        title: 'Stone only',
+        body: 'Every discrete trigger is gone — just the cathedral room tone and a slow, low drone remain. Reverb lengthens. Light shifts from warm stone toward cool slate.',
+      },
+      phase3: {
+        title: 'Thinning',
+        body: 'The room tone simplifies to a single organ pedal note. A church bell sounds, then waits longer each time. The dome oculus darkens toward stars.',
+      },
+      phase4: {
+        title: 'Last taper',
+        body: 'Candles go out one by one in the fresco. Volume tapers gently toward silence.',
+      },
+      ended: {
+        title: 'Asleep',
+        body: 'Silence. Tap anywhere on the scene to wake.',
+      },
+    },
   },
 }
 
@@ -117,9 +219,10 @@ function getSleepPhase(elapsedMinutes: number, totalMinutes: number | null): Sle
 }
 
 function App() {
+  const [activeChapter, setActiveChapter] = useState<Chapter>('renaissance')
   const [activeMode, setActiveMode] = useState('Journey')
   const [sceneBeat, setSceneBeat] = useState<'beat1' | 'beat2' | 'beat3' | 'resolved'>('beat1')
-  const [lastTrigger, setLastTrigger] = useState('Tap the shoji panel to begin the first Journey beat.')
+  const [lastTrigger, setLastTrigger] = useState('')
   const [pulseKey, setPulseKey] = useState(0)
 
   const [sleepTimerMinutes, setSleepTimerMinutes] = useState<number | null>(30)
@@ -128,9 +231,19 @@ function App() {
   const [sleepElapsed, setSleepElapsed] = useState(0)
   const [sleepWoke, setSleepWoke] = useState(false)
 
-  const selectedMode = modes.find((mode) => mode.key === activeMode) ?? modes[1]
+  const chapter = chapterContent[activeChapter]
+  const selectedMode = modes.find((mode) => mode.key === activeMode) ?? modes[0]
   const activeStage = sceneBeat === 'beat1' ? 1 : sceneBeat === 'beat2' ? 2 : sceneBeat === 'beat3' ? 3 : 4
   const sleepPhase = getSleepPhase(sleepElapsed, sleepTimerMinutes)
+
+  useEffect(() => {
+    setSceneBeat('beat1')
+    setLastTrigger(chapterContent[activeChapter].status.beat1)
+    setPulseKey((v) => v + 1)
+    setSleepRunning(false)
+    setSleepElapsed(0)
+    setSleepWoke(false)
+  }, [activeChapter])
 
   useEffect(() => {
     if (!sleepRunning || sleepPhase === 'ended') return
@@ -139,6 +252,43 @@ function App() {
     }, 1000)
     return () => window.clearInterval(interval)
   }, [sleepRunning, sleepPhase])
+
+  const handleShoji = () => {
+    if (sceneBeat === 'beat1') {
+      setSceneBeat('beat2')
+    }
+  }
+
+  const handleLantern = () => {
+    if (sceneBeat === 'beat2') {
+      setSceneBeat('beat3')
+    } else {
+      handleTrigger(activeChapter === 'renaissance'
+        ? 'The viewpoint shifts. A fragment lifts into alignment.'
+        : 'The lantern warms the room and the air feels easier to breathe.')
+    }
+  }
+
+  const handleWater = () => {
+    if (sceneBeat === 'beat3') {
+      setSceneBeat('resolved')
+    } else {
+      handleTrigger(activeChapter === 'renaissance'
+        ? 'The stone floor holds the angle — cool, still, exact.'
+        : 'The water moves gently and the reflection deepens.')
+    }
+  }
+
+  const handleTrigger = (message: string) => {
+    setLastTrigger(message)
+    setPulseKey((value) => value + 1)
+  }
+
+  const resetScene = () => {
+    setSceneBeat('beat1')
+    setLastTrigger(chapter.status.beat1)
+    setPulseKey((value) => value + 1)
+  }
 
   const startSleep = () => {
     setSleepElapsed(0)
@@ -157,44 +307,20 @@ function App() {
     setSleepElapsed(0)
   }
 
-  const handleShoji = () => {
-    if (sceneBeat === 'beat1') {
-      setSceneBeat('beat2')
-      setLastTrigger('The paper screen slides aside. One quiet gesture remains: light the lantern and let the reflection begin.')
-    }
-  }
+  const journeyBeatTitle =
+    sceneBeat === 'resolved' ? 'Resolution — Era remembers itself'
+    : sceneBeat === 'beat3' ? chapter.beat3Title
+    : sceneBeat === 'beat2' ? chapter.beat2Title
+    : chapter.beat1Title
 
-  const handleLantern = () => {
-    if (sceneBeat === 'beat2') {
-      setSceneBeat('beat3')
-      setLastTrigger('The lantern opens the path. One more touch will settle the water and complete the reflection.')
-    } else {
-      setLastTrigger('The lantern warms the room and the air feels easier to breathe.')
-    }
-  }
-
-  const handleWater = () => {
-    if (sceneBeat === 'beat3') {
-      setSceneBeat('resolved')
-      setLastTrigger('The pond calms. The era remembers itself: light returns, sound settles, and the world exhales.')
-    } else {
-      setLastTrigger('The water moves gently and the reflection deepens.')
-    }
-  }
-
-  const handleTrigger = (message: string) => {
-    setLastTrigger(message)
-    setPulseKey((value) => value + 1)
-  }
-
-  const resetScene = () => {
-    setSceneBeat('beat1')
-    setLastTrigger('Tap the shoji panel to begin the first Journey beat.')
-    setPulseKey((value) => value + 1)
-  }
+  const journeyBeatDesc =
+    sceneBeat === 'resolved' ? chapter.resolvedDesc
+    : sceneBeat === 'beat3' ? chapter.beat3Desc
+    : sceneBeat === 'beat2' ? chapter.beat2Desc
+    : chapter.beat1Desc
 
   return (
-    <main className="app-shell">
+    <main className="app-shell" data-chapter={activeChapter} data-mode={activeMode.toLowerCase()}>
       <section className="hero-card">
         <div className="hero-intro">
           <div>
@@ -208,8 +334,8 @@ function App() {
           </div>
           <div className="hero-callout">
             <p>Now showing</p>
-            <strong>Edo Japan</strong>
-            <span>Slide the shoji and light the lantern.</span>
+            <strong>{chapter.title}</strong>
+            <span>{chapter.heroCallout}</span>
           </div>
         </div>
         <div className="hero-actions">
@@ -227,10 +353,22 @@ function App() {
         </div>
       </section>
 
-      <section className="prototype-section" aria-label="Edo vertical slice">
+      <section className="prototype-section" aria-label="Vertical slice">
         <div className="section-heading">
           <p className="eyebrow">Vertical slice</p>
-          <h2>Edo Japan — The Floating Hour</h2>
+          <h2>{chapter.sectionTitle}</h2>
+          <div className="chapter-switcher">
+            {(['edo', 'renaissance'] as Chapter[]).map((ch) => (
+              <button
+                key={ch}
+                type="button"
+                className={`chapter-pill ${activeChapter === ch ? 'active' : ''}`}
+                onClick={() => setActiveChapter(ch)}
+              >
+                {chapterContent[ch].title}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="prototype-layout">
@@ -246,7 +384,7 @@ function App() {
                 {!sleepRunning ? (
                   <div className="sleep-setup">
                     {sleepWoke ? <p className="sleep-wake-note">You woke gently. The room is still low and warm.</p> : null}
-                    <p className="sleep-era-label">Edo Japan · The Floating Hour</p>
+                    <p className="sleep-era-label">{chapter.sleepEraLabel}</p>
                     <div className="sleep-field">
                       <span>Timer</span>
                       <div className="trigger-list">
@@ -294,8 +432,8 @@ function App() {
                       </>
                     ) : null}
                     <div className="sleep-readout">
-                      <p className="sleep-phase-title">{sleepPhaseCopy[sleepPhase].title}</p>
-                      <p className="sleep-phase-body">{sleepPhaseCopy[sleepPhase].body}</p>
+                      <p className="sleep-phase-title">{chapter.sleepPhase[sleepPhase].title}</p>
+                      <p className="sleep-phase-body">{chapter.sleepPhase[sleepPhase].body}</p>
                       <p className="sleep-timer-readout">
                         {sleepTimerMinutes === null
                           ? `${sleepElapsed} min settled · demo-paced`
@@ -324,28 +462,22 @@ function App() {
                   <div className="resolution-overlay">
                     <p>The era remembers itself.</p>
                     <button type="button" className="reset-button" onClick={resetScene}>
-                      Replay Edo
+                      {chapter.replayLabel}
                     </button>
                   </div>
                 ) : null}
                 <button
                   type="button"
                   className={`shoji-panel ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'open' : ''}`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    handleShoji()
-                  }}
-                  aria-label="Slide the shoji panel"
+                  onClick={(event) => { event.stopPropagation(); handleShoji() }}
+                  aria-label={chapter.shojiAria}
                 >
-                  <span>shoji</span>
+                  <span>{chapter.shojiLabel}</span>
                 </button>
                 <button
                   type="button"
                   className={`lantern ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'lit' : ''}`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    handleLantern()
-                  }}
+                  onClick={(event) => { event.stopPropagation(); handleLantern() }}
                 >
                   ◌
                 </button>
@@ -354,9 +486,9 @@ function App() {
                   className="bell"
                   onClick={(event) => {
                     event.stopPropagation()
-                    handleTrigger(
-                      'A furin chime passes through the rain, soft and clear.',
-                    )
+                    handleTrigger(activeChapter === 'renaissance'
+                      ? 'The chalk snap-line thwacks taut — exact, satisfying.'
+                      : 'A furin chime passes through the rain, soft and clear.')
                   }}
                 >
                   ◌
@@ -364,10 +496,7 @@ function App() {
                 <button
                   type="button"
                   className={`water ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    handleWater()
-                  }}
+                  onClick={(event) => { event.stopPropagation(); handleWater() }}
                 >
                   ◌
                 </button>
@@ -400,7 +529,7 @@ function App() {
                 </p>
                 <p className="scene-status">
                   {sleepRunning
-                    ? `${sleepPhaseCopy[sleepPhase].title} — ${sleepPhaseCopy[sleepPhase].body}`
+                    ? `${chapter.sleepPhase[sleepPhase].title} — ${chapter.sleepPhase[sleepPhase].body}`
                     : 'Set the timer and display, then begin.'}
                 </p>
                 {sleepRunning ? (
@@ -415,30 +544,10 @@ function App() {
               </div>
             ) : activeMode === 'Journey' ? (
               <div className="scene-copy">
-                <h3>
-                  {sceneBeat === 'resolved'
-                    ? 'Resolution — Era remembers itself'
-                    : sceneBeat === 'beat3'
-                      ? 'Beat 3 — Reflection release'
-                      : sceneBeat === 'beat2'
-                        ? 'Beat 2 — Lantern release'
-                        : 'Beat 1 — The sliding veranda'}
-                </h3>
-                <p>
-                  {sceneBeat === 'beat1'
-                    ? 'A single shoji panel is all the room asks for. Slide it once to reveal the walkway hidden by the paper wall.'
-                    : sceneBeat === 'beat2'
-                      ? 'The path is opening. Light the lantern to guide the reflection and bring the garden closer.'
-                      : sceneBeat === 'beat3'
-                        ? 'The water is almost calm. Tap the pond to settle the last reflection and complete the scene.'
-                        : 'The scene has resolved. Light returns, sound settles, and the era remembers itself.'}
-                </p>
+                <h3>{journeyBeatTitle}</h3>
+                <p>{journeyBeatDesc}</p>
                 <div className="stage-list" aria-label="Journey stage progress">
-                  {[
-                    { title: 'Beat 1', label: 'Slide shoji', stage: 1 },
-                    { title: 'Beat 2', label: 'Light lantern', stage: 2 },
-                    { title: 'Beat 3', label: 'Settle water', stage: 3 },
-                  ].map((stage) => (
+                  {chapter.stageLabels.map((stage) => (
                     <div
                       key={stage.title}
                       className={`stage-pill ${activeStage === stage.stage ? 'active' : ''} ${activeStage > stage.stage ? 'done' : ''}`}
@@ -448,37 +557,24 @@ function App() {
                     </div>
                   ))}
                 </div>
-                <p className="scene-status">
-                  {sceneBeat === 'resolved'
-                    ? 'The era remembers itself: light returns, the rain settles, and the world exhales.'
-                    : sceneBeat === 'beat3'
-                      ? 'Tap the water to finish the reflection.'
-                      : sceneBeat === 'beat2'
-                        ? 'Tap the lantern to continue the second beat.'
-                        : 'Tap the shoji panel to begin the first Journey beat.'}
-                </p>
+                <p className="scene-status">{chapter.status[sceneBeat]}</p>
                 {sceneBeat === 'resolved' ? (
                   <button type="button" className="reset-button" onClick={resetScene}>
-                    Replay Edo
+                    {chapter.replayLabel}
                   </button>
                 ) : null}
               </div>
             ) : (
               <div className="scene-copy">
-                <h3>Calm mode — touch the room</h3>
-                <p>
-                  The scene is designed to answer each touch with a small, satisfying
-                  reward: lantern light, a bell, or a ripple.
-                </p>
+                <h3>{chapter.calmTitle}</h3>
+                <p>{chapter.calmDesc}</p>
                 <div className="trigger-list">
-                  {calmTriggers.map((trigger) => (
+                  {chapter.calmTriggers.map((trigger) => (
                     <button
                       key={trigger.label}
                       type="button"
                       className="trigger-pill"
-                      onClick={() =>
-                        handleTrigger(trigger.description)
-                      }
+                      onClick={() => handleTrigger(trigger.description)}
                     >
                       {trigger.label}
                     </button>
@@ -528,12 +624,12 @@ function App() {
           <h2>Two eras already feel like a world of their own.</h2>
         </div>
         <div className="chapter-grid">
-          {chapters.map((chapter) => (
-            <article key={chapter.title} className="chapter-card">
-              <p className="chapter-title">{chapter.title}</p>
-              <h3>{chapter.subtitle}</h3>
-              <p>{chapter.description}</p>
-              <span>{chapter.accent}</span>
+          {chapters.map((ch) => (
+            <article key={ch.title} className="chapter-card">
+              <p className="chapter-title">{ch.title}</p>
+              <h3>{ch.subtitle}</h3>
+              <p>{ch.description}</p>
+              <span>{ch.accent}</span>
             </article>
           ))}
         </div>

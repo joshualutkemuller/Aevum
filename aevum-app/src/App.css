@@ -684,6 +684,205 @@
   color: #5f4e41;
 }
 
+/* ── Chapter switcher ── */
+
+.section-heading .chapter-switcher {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.chapter-pill {
+  border: 1px solid rgba(122, 92, 56, 0.2);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  background: #f6eadc;
+  color: #5f4e41;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.chapter-pill.active {
+  background: #5f4e41;
+  color: #fff8f2;
+  border-color: transparent;
+}
+
+/* ── Renaissance — state-based palette system ──────────────────────────────
+
+  Four states driven by data-chapter + data-mode attributes on <main>:
+
+  Journey / stone interior  →  Pearl and Pewter  (#f7f3ea · #d6d0c6 · #a49c90 · #5a5550 · #2c2a28)
+  Calm    / bottega          →  Chapel Candlelight (#fbf4e8 · #f2d7a0 · #d6a35d · #8d5a36 · #3a2e2a)
+  Resolution bloom           →  Gilded Manuscript  (#f7f1e6 · #e7d2a1 · #caa24a · #8a6b2e · #3b3227)
+  Sleep darkening            →  Scholar's Ink      (#e9e1d3 · #a59a84 · #3c4a5a · #1f2430)
+─────────────────────────────────────────────────────────────────────────── */
+
+/* Page shell */
+[data-chapter="renaissance"] {
+  background:
+    radial-gradient(circle at top left, rgba(212, 205, 195, 0.35), transparent 28%),
+    linear-gradient(135deg, #f2eeea 0%, #e8e3dc 100%);
+}
+
+/* Cards */
+[data-chapter="renaissance"] .hero-card,
+[data-chapter="renaissance"] .mode-section,
+[data-chapter="renaissance"] .prototype-section,
+[data-chapter="renaissance"] .chapters-section,
+[data-chapter="renaissance"] .pillar-card {
+  background: rgba(242, 238, 234, 0.88);
+  border-color: rgba(90, 85, 80, 0.14);
+}
+
+/* Bottega override: warmer card surfaces in Calm mode */
+[data-chapter="renaissance"][data-mode="calm"] .hero-card,
+[data-chapter="renaissance"][data-mode="calm"] .prototype-section,
+[data-chapter="renaissance"][data-mode="calm"] .scene-copy {
+  background: rgba(251, 244, 232, 0.92);
+}
+
+/* Hero callout */
+[data-chapter="renaissance"] .hero-callout {
+  background: linear-gradient(135deg, rgba(166, 155, 132, 0.18), rgba(242, 238, 234, 0.96));
+  color: #3b3227;
+}
+[data-chapter="renaissance"] .hero-callout p,
+[data-chapter="renaissance"] .hero-callout span {
+  color: #5a5550;
+}
+[data-chapter="renaissance"] .hero-callout strong {
+  color: #2c2a28;
+}
+
+/* Primary action */
+[data-chapter="renaissance"] .primary-action {
+  background: linear-gradient(135deg, #3c4a5a, #5a6b7a);
+  box-shadow: 0 12px 30px rgba(44, 58, 74, 0.22);
+}
+
+/* Active mode pill */
+[data-chapter="renaissance"] .mode-pill.active {
+  background: #3c4a5a;
+  color: #f7f3ea;
+}
+
+/* Active chapter pill */
+[data-chapter="renaissance"] .chapter-pill.active {
+  background: #3c4a5a;
+  color: #f7f3ea;
+}
+
+/* Hero badges */
+[data-chapter="renaissance"] .hero-badges span {
+  background: rgba(90, 85, 80, 0.1);
+  color: #3b3227;
+}
+
+/* Trigger pills */
+[data-chapter="renaissance"] .trigger-pill {
+  background: rgba(90, 85, 80, 0.1);
+  color: #3b3227;
+}
+
+/* Stage pills */
+[data-chapter="renaissance"] .stage-pill.active {
+  background: #d6d0c6;
+  border-color: #5a5550;
+}
+[data-chapter="renaissance"] .stage-pill.done {
+  background: #dde8e2;
+  border-color: #6a9080;
+  color: #2f4a42;
+}
+
+/* Scene card */
+[data-chapter="renaissance"] .scene-card {
+  background: linear-gradient(135deg, rgba(242, 238, 234, 0.96), rgba(214, 208, 198, 0.96));
+}
+
+/* ── Journey scene-frame: Pearl and Pewter — stone interior ── */
+[data-chapter="renaissance"] .scene-frame {
+  background: linear-gradient(180deg, #d6d0c6 0%, #a49c90 44%, #5a5550 100%);
+  transition: background 1200ms ease;
+}
+
+[data-chapter="renaissance"] .scene-frame.active {
+  background: linear-gradient(180deg, #cdc7bc 0%, #9c9488 42%, #524e4a 100%);
+}
+
+[data-chapter="renaissance"] .scene-frame.stage3 {
+  background: linear-gradient(180deg, #cac4b8 0%, #9a9280 42%, #504c46 100%);
+}
+
+/* Resolution bloom: Gilded Manuscript */
+[data-chapter="renaissance"] .scene-frame.resolved {
+  background: linear-gradient(180deg, #f7f1e6 0%, #e7d2a1 42%, #caa24a 100%);
+}
+
+/* Sky overlay: in Renaissance the "sky" is the stone ceiling — cooler, lower opacity */
+[data-chapter="renaissance"] .sky {
+  background: linear-gradient(180deg, rgba(242, 238, 230, 0.65), rgba(166, 158, 144, 0.08));
+}
+
+/* Pond → stone floor ellipse */
+[data-chapter="renaissance"] .pond {
+  background: linear-gradient(180deg, rgba(90, 85, 80, 0.55), rgba(44, 42, 40, 0.88));
+}
+
+/* Path nodes: cooler resolution color */
+[data-chapter="renaissance"] .path-node.active {
+  background: rgba(202, 162, 74, 0.95);
+}
+
+/* Easel panel: warm parchment on cool stone */
+[data-chapter="renaissance"] .shoji-panel {
+  background: linear-gradient(135deg, #f7f1e6, #e7d2a1);
+  color: #3b3227;
+}
+
+/* Resolution overlay: Gilded Manuscript tones */
+[data-chapter="renaissance"] .resolution-overlay {
+  background: rgba(247, 241, 230, 0.98);
+  color: #3b3227;
+}
+
+/* Reset button */
+[data-chapter="renaissance"] .reset-button {
+  background: #3c4a5a;
+  box-shadow: 0 16px 34px rgba(44, 58, 74, 0.22);
+}
+
+/* ── Calm mode: Chapel Candlelight — bottega ── */
+[data-chapter="renaissance"][data-mode="calm"] .scene-frame {
+  background: linear-gradient(180deg, #fbf4e8 0%, #f2d7a0 44%, #8d5a36 100%);
+}
+
+/* ── Sleep: Scholar's Ink darkening ── */
+[data-chapter="renaissance"] .sleep-frame {
+  background: linear-gradient(180deg, #e9e1d3 0%, #c5bba8 45%, #8d7a6a 100%);
+  transition: background 1400ms ease;
+}
+
+[data-chapter="renaissance"] .sleep-frame.sleep-phase2 {
+  background: linear-gradient(180deg, #3c4a5a 0%, #2c3848 45%, #1f2430 100%);
+}
+
+[data-chapter="renaissance"] .sleep-frame.sleep-phase3 {
+  background: linear-gradient(180deg, #252e38 0%, #1c2430 45%, #141a24 100%);
+}
+
+[data-chapter="renaissance"] .sleep-frame.sleep-phase4,
+[data-chapter="renaissance"] .sleep-frame.sleep-ended {
+  background: #0c0e14;
+}
+
+[data-chapter="renaissance"] .sleep-frame.audio-only {
+  background: #06060a;
+}
+
 @keyframes pulse {
   from {
     opacity: 0.7;
