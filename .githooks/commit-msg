@@ -1,0 +1,14 @@
+#!/bin/sh
+# Commit-msg hook for Aevum: encourage Conventional Commit style.
+
+commit_msg_file="$1"
+if [ ! -s "$commit_msg_file" ]; then
+  echo "Empty commit message not allowed."
+  exit 1
+fi
+
+if ! grep -qE '^(feat|fix|docs|chore|refactor|perf|test|build|ci)(\(.+\))?: .+' "$commit_msg_file"; then
+  echo "Commit message should follow Conventional Commits: type(scope?): description"
+  echo "Example: feat(ui): add Edo replay button"
+  exit 1
+fi

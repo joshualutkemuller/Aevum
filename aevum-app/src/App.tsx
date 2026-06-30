@@ -76,6 +76,7 @@ function App() {
   const [pulseKey, setPulseKey] = useState(0)
 
   const selectedMode = modes.find((mode) => mode.key === activeMode) ?? modes[1]
+  const activeStage = sceneBeat === 'beat1' ? 1 : sceneBeat === 'beat2' ? 2 : sceneBeat === 'beat3' ? 3 : 4
 
   const handleShoji = () => {
     if (sceneBeat === 'beat1') {
@@ -163,7 +164,11 @@ function App() {
             >
               <div className="sky" />
               <div className="pond" />
-              <div className="path" />
+              <div className={`path ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}>
+                <span className={`path-node start ${sceneBeat !== 'beat1' ? 'active' : ''}`} />
+                <span className={`path-node mid ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`} />
+                <span className={`path-node end ${sceneBeat === 'resolved' ? 'active' : ''}`} />
+              </div>
               {sceneBeat === 'resolved' ? (
                 <div className="resolution-overlay">
                   <p>The era remembers itself.</p>
@@ -253,6 +258,21 @@ function App() {
                         ? 'The water is almost calm. Tap the pond to settle the last reflection and complete the scene.'
                         : 'The scene has resolved. Light returns, sound settles, and the era remembers itself.'}
                 </p>
+                <div className="stage-list" aria-label="Journey stage progress">
+                  {[
+                    { title: 'Beat 1', label: 'Slide shoji', stage: 1 },
+                    { title: 'Beat 2', label: 'Light lantern', stage: 2 },
+                    { title: 'Beat 3', label: 'Settle water', stage: 3 },
+                  ].map((stage) => (
+                    <div
+                      key={stage.title}
+                      className={`stage-pill ${activeStage === stage.stage ? 'active' : ''} ${activeStage > stage.stage ? 'done' : ''}`}
+                    >
+                      <strong>{stage.title}</strong>
+                      <span>{stage.label}</span>
+                    </div>
+                  ))}
+                </div>
                 <p className="scene-status">
                   {sceneBeat === 'resolved'
                     ? 'The era remembers itself: light returns, the rain settles, and the world exhales.'
@@ -262,6 +282,11 @@ function App() {
                         ? 'Tap the lantern to continue the second beat.'
                         : 'Tap the shoji panel to begin the first Journey beat.'}
                 </p>
+                {sceneBeat === 'resolved' ? (
+                  <button type="button" className="reset-button" onClick={resetScene}>
+                    Replay Edo
+                  </button>
+                ) : null}
               </div>
             ) : (
               <div className="scene-copy">

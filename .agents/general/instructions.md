@@ -1,0 +1,5 @@
+- Read `docs/Aevum_master_brief_and_handoff.md` before making any gameplay or design changes.
+- Prefer incremental, focused changes over broad rewrites.
+- Never overwrite design docs without explicit user approval.
+- Keep edits within the relevant domain: `aevum-app` for code, `docs/` for design handoff, `.agents/` for agent support.
+- If the repo has unstaged work, report it before editing or pushing.

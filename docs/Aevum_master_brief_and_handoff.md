@@ -269,7 +269,14 @@ Each begins with the anchor so the LLM stays grounded. Pick one at a time.
 8. *Using the brief, draft the in-game accessibility & sound-settings screen: every per-category toggle, the breathing-guide option, reduced-motion, narration, and the Sleep-mode timer/dim/audio-only controls.*
 
 ---
+## Later backlog
+- Implement the Calm mode interaction layer with per-trigger Foley, haptics, and generative calm audio logic.
+- Build Sleep mode with timer/dim controls, bed-rich sound, and safe low-motion transitions.
+- Integrate the vertical slice with FMOD/Wwise adaptive audio and stem-based mixing.
+- Validate the Edo chapter with user testing and calm-mode feedback.
+- Expand the pitch deck into publisher-facing speaker notes and Q&A responses.
 
+---
 ## 13. Glossary (keep terms consistent)
 
 - **Aevum** — working title.

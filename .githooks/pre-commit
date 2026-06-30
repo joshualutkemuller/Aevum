@@ -1,0 +1,13 @@
+#!/bin/sh
+# Pre-commit hook for Aevum: lint the app before committing.
+
+cd "$(git rev-parse --show-toplevel)/aevum-app" || exit 1
+if [ -x "./node_modules/.bin/oxlint" ]; then
+  echo "Running lint checks..."
+  npm run lint || {
+    echo "Lint failed. Fix issues before committing."
+    exit 1
+  }
+else
+  echo "Warning: dependencies not installed in aevum-app. Run npm install first."
+fi

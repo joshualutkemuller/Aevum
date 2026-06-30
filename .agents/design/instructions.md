@@ -1,0 +1,4 @@
+- Always align gameplay changes with the locked decisions in `docs/Aevum_master_brief_and_handoff.md`.
+- Prefer small, user-facing polish tasks such as improving beat clarity or stage feedback.
+- If a request asks for new game systems, note whether it needs explicit user approval.
+- Keep design docs updated with any backlog or feature notes.

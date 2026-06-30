@@ -216,12 +216,49 @@
   bottom: 120px;
   width: 170px;
   height: 120px;
-  border-left: 3px solid rgba(255, 248, 242, 0.7);
-  border-bottom: 3px solid rgba(255, 248, 242, 0.7);
+  border-left: 3px solid rgba(255, 248, 242, 0.45);
+  border-bottom: 3px solid rgba(255, 248, 242, 0.45);
   border-bottom-left-radius: 60px;
   transform: translateX(-50%) rotate(0deg);
   opacity: 0;
-  transition: opacity 220ms ease, transform 220ms ease;
+  transition: opacity 220ms ease, transform 220ms ease, border-color 220ms ease;
+}
+
+.path.active {
+  border-color: rgba(255, 248, 242, 0.95);
+}
+
+.path-node {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 248, 242, 0.5);
+  border: 2px solid rgba(255, 248, 242, 0.85);
+  transition: transform 220ms ease, background 220ms ease, opacity 220ms ease;
+  opacity: 0.65;
+}
+
+.path-node.active {
+  background: rgba(255, 230, 155, 0.95);
+  transform: scale(1.25);
+  opacity: 1;
+}
+
+.path-node.start {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.path-node.mid {
+  bottom: 28px;
+  left: 44%;
+}
+
+.path-node.end {
+  bottom: 8px;
+  right: 14px;
 }
 
 .scene-frame.active .path,
@@ -302,17 +339,24 @@
   border-radius: 20px;
   border: 1px solid rgba(255, 248, 242, 0.35);
   animation: pulse 700ms ease-out;
+  pointer-events: none;
 }
 
 .resolution-overlay {
   position: absolute;
   inset: auto 24px 24px 24px;
-  padding: 14px 16px;
+  padding: 18px 18px 16px;
   border-radius: 16px;
-  background: rgba(255, 247, 236, 0.92);
+  background: rgba(255, 247, 236, 0.98);
   color: #5a4b39;
   text-align: center;
   box-shadow: 0 18px 40px rgba(64, 46, 30, 0.12);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
 }
 
 .resolution-overlay p {
@@ -320,6 +364,25 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.reset-button {
+  width: min(100%, 240px);
+  padding: 16px 22px;
+  border-radius: 999px;
+  border: none;
+  background: #7c5c3c;
+  color: white;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(124, 92, 60, 0.24);
+}
+
+.reset-button:hover {
+  transform: translateY(-1px);
 }
 
 .scene-sidebar {
@@ -353,6 +416,43 @@
 .scene-copy h3 {
   margin: 0 0 8px;
   font-size: 1.15rem;
+}
+
+.stage-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stage-pill {
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: #f2e9dc;
+  border: 1px solid rgba(122, 92, 56, 0.12);
+  display: grid;
+  gap: 4px;
+  color: #5f4e41;
+}
+
+.stage-pill.active {
+  background: #e0d1bd;
+  border-color: #a27b56;
+}
+
+.stage-pill.done {
+  background: #e7f1e9;
+  border-color: #8aa876;
+  color: #51694c;
+}
+
+.stage-pill strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.stage-pill span {
+  font-size: 0.85rem;
 }
 
 .scene-copy p {
