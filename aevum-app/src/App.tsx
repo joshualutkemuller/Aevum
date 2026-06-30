@@ -71,8 +71,8 @@ const calmTriggers = [
 
 function App() {
   const [activeMode, setActiveMode] = useState('Journey')
-  const [sceneBeat, setSceneBeat] = useState<'beat1' | 'beat2' | 'resolved'>('beat1')
-  const [lastTrigger, setLastTrigger] = useState('Tap the lantern, the bell, or the water to breathe with the scene.')
+  const [sceneBeat, setSceneBeat] = useState<'beat1' | 'beat2' | 'beat3' | 'resolved'>('beat1')
+  const [lastTrigger, setLastTrigger] = useState('Tap the shoji panel to begin the first Journey beat.')
   const [pulseKey, setPulseKey] = useState(0)
 
   const selectedMode = modes.find((mode) => mode.key === activeMode) ?? modes[1]
@@ -80,21 +80,36 @@ function App() {
   const handleShoji = () => {
     if (sceneBeat === 'beat1') {
       setSceneBeat('beat2')
-      setLastTrigger('The paper screen slides aside. One quiet gesture remains: light the lantern and let the reflection complete.')
+      setLastTrigger('The paper screen slides aside. One quiet gesture remains: light the lantern and let the reflection begin.')
     }
   }
 
   const handleLantern = () => {
     if (sceneBeat === 'beat2') {
-      setSceneBeat('resolved')
-      setLastTrigger('The lantern blooms. The era remembers itself: light returns, the rain settles, and the world exhales.')
+      setSceneBeat('beat3')
+      setLastTrigger('The lantern opens the path. One more touch will settle the water and complete the reflection.')
     } else {
       setLastTrigger('The lantern warms the room and the air feels easier to breathe.')
     }
   }
 
+  const handleWater = () => {
+    if (sceneBeat === 'beat3') {
+      setSceneBeat('resolved')
+      setLastTrigger('The pond calms. The era remembers itself: light returns, sound settles, and the world exhales.')
+    } else {
+      setLastTrigger('The water moves gently and the reflection deepens.')
+    }
+  }
+
   const handleTrigger = (message: string) => {
     setLastTrigger(message)
+    setPulseKey((value) => value + 1)
+  }
+
+  const resetScene = () => {
+    setSceneBeat('beat1')
+    setLastTrigger('Tap the shoji panel to begin the first Journey beat.')
     setPulseKey((value) => value + 1)
   }
 
@@ -140,49 +155,63 @@ function App() {
 
         <div className="prototype-layout">
           <div className="scene-card">
-            <div className={`scene-frame ${sceneBeat === 'resolved' ? 'resolved' : sceneBeat === 'beat2' ? 'active' : ''}`}>
+            <div
+              className={`scene-frame ${sceneBeat === 'resolved' ? 'resolved' : sceneBeat === 'beat3' ? 'stage3' : sceneBeat === 'beat2' ? 'active' : ''}`}
+              onClick={activeMode === 'Journey' && sceneBeat === 'beat1' ? handleShoji : undefined}
+              role={sceneBeat === 'beat1' && activeMode === 'Journey' ? 'button' : undefined}
+              tabIndex={sceneBeat === 'beat1' && activeMode === 'Journey' ? 0 : undefined}
+            >
               <div className="sky" />
               <div className="pond" />
               <div className="path" />
               {sceneBeat === 'resolved' ? (
                 <div className="resolution-overlay">
                   <p>The era remembers itself.</p>
+                  <button type="button" className="reset-button" onClick={resetScene}>
+                    Replay Edo
+                  </button>
                 </div>
               ) : null}
               <button
                 type="button"
-                className={`shoji-panel ${sceneBeat === 'beat2' || sceneBeat === 'resolved' ? 'open' : ''}`}
-                onClick={handleShoji}
+                className={`shoji-panel ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'open' : ''}`}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  handleShoji()
+                }}
                 aria-label="Slide the shoji panel"
               >
                 <span>shoji</span>
               </button>
               <button
                 type="button"
-                className={`lantern ${sceneBeat === 'beat2' || sceneBeat === 'resolved' ? 'lit' : ''}`}
-                onClick={handleLantern}
+                className={`lantern ${sceneBeat === 'beat2' || sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'lit' : ''}`}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  handleLantern()
+                }}
               >
                 ◌
               </button>
               <button
                 type="button"
                 className="bell"
-                onClick={() =>
+                onClick={(event) => {
+                  event.stopPropagation()
                   handleTrigger(
                     'A furin chime passes through the rain, soft and clear.',
                   )
-                }
+                }}
               >
                 ◌
               </button>
               <button
                 type="button"
-                className="water"
-                onClick={() =>
-                  handleTrigger(
-                    'The pond ripples and the reflection becomes a path.',
-                  )
-                }
+                className={`water ${sceneBeat === 'beat3' || sceneBeat === 'resolved' ? 'active' : ''}`}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  handleWater()
+                }}
               >
                 ◌
               </button>
@@ -208,24 +237,30 @@ function App() {
               <div className="scene-copy">
                 <h3>
                   {sceneBeat === 'resolved'
-                    ? 'Beat 2 — Lantern release'
-                    : sceneBeat === 'beat2'
-                      ? 'Beat 2 — Lantern release'
-                      : 'Beat 1 — The sliding veranda'}
+                    ? 'Resolution — Era remembers itself'
+                    : sceneBeat === 'beat3'
+                      ? 'Beat 3 — Reflection release'
+                      : sceneBeat === 'beat2'
+                        ? 'Beat 2 — Lantern release'
+                        : 'Beat 1 — The sliding veranda'}
                 </h3>
                 <p>
                   {sceneBeat === 'beat1'
                     ? 'A single shoji panel is all the room asks for. Slide it once to reveal the walkway hidden by the paper wall.'
                     : sceneBeat === 'beat2'
-                      ? 'The path is almost complete. Light the lantern to let the reflection settle and the era resolve.'
-                      : 'The lantern blooms and the room exhales. The walkway becomes whole, and the era remembers itself.'}
+                      ? 'The path is opening. Light the lantern to guide the reflection and bring the garden closer.'
+                      : sceneBeat === 'beat3'
+                        ? 'The water is almost calm. Tap the pond to settle the last reflection and complete the scene.'
+                        : 'The scene has resolved. Light returns, sound settles, and the era remembers itself.'}
                 </p>
                 <p className="scene-status">
                   {sceneBeat === 'resolved'
-                    ? 'The lantern blooms. Light returns, the rain settles, and the world exhales.'
-                    : sceneBeat === 'beat2'
-                      ? 'Tap the lantern to complete the second beat.'
-                      : 'Tap the shoji panel to begin the first Journey beat.'}
+                    ? 'The era remembers itself: light returns, the rain settles, and the world exhales.'
+                    : sceneBeat === 'beat3'
+                      ? 'Tap the water to finish the reflection.'
+                      : sceneBeat === 'beat2'
+                        ? 'Tap the lantern to continue the second beat.'
+                        : 'Tap the shoji panel to begin the first Journey beat.'}
                 </p>
               </div>
             ) : (

@@ -164,8 +164,29 @@
   background: linear-gradient(180deg, #5a6d73 0%, #7d877d 45%, #b09969 100%);
 }
 
+.scene-frame[role='button'] {
+  cursor: pointer;
+}
+
+.scene-frame[role='button']::after {
+  content: 'Tap to begin';
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 248, 242, 0.9);
+  color: #5f4e41;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
 .scene-frame.active {
   background: linear-gradient(180deg, #4d6165 0%, #7d8f7b 42%, #bfa46f 100%);
+}
+
+.scene-frame.stage3 {
+  background: linear-gradient(180deg, #4b5d61 0%, #7e8b6f 42%, #c2ae76 100%);
 }
 
 .scene-frame.resolved {
@@ -204,6 +225,7 @@
 }
 
 .scene-frame.active .path,
+.scene-frame.stage3 .path,
 .scene-frame.resolved .path {
   opacity: 1;
   transform: translateX(-50%) rotate(4deg);
@@ -267,6 +289,11 @@
 .water {
   left: 190px;
   bottom: 82px;
+}
+
+.water.active {
+  background: rgba(194, 188, 143, 0.95);
+  box-shadow: 0 0 0 8px rgba(194, 188, 143, 0.14);
 }
 
 .pulse-ring {
