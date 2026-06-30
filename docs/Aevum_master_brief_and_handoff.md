@@ -44,6 +44,7 @@ Attach this whole file, then paste the role prompt below, then pick a task from 
 ## 3. Open questions (decide these)
 
 1. **Vertical-slice lead era:** Edo (richest ASMR palette) or Renaissance (its real history *is* the mechanic)?
+   **Resolved: Renaissance.** More original — no calm game has made linear perspective the mechanic, and the cognitive ASMR trigger (the perspective snap) is genuinely new. Three design pivots locked: (1) cognitive ASMR first — the resolution moment is the trigger, not the gesture; (2) acoustic space is the BED — stone interior resonance, choir drone, not weather; (3) Calm mode is the bottega at dusk — close-mic quill, dividers, pigment grind — not the piazza exterior. See expanded §6.
 2. **How far to build the wellness/sleep side** — a calm mode within a game, or a genuine second product / storefront category?
 3. **Funding/route:** self-fund vertical slice, seek a publisher, or pursue an Apple Arcade / platform deal?
 4. **Monetization specifics:** premium price point; which eras are base vs. paid packs; whether any tasteful subscription exists for sleep content.
@@ -103,21 +104,59 @@ Attach this whole file, then paste the role prompt below, then pick a task from 
 
 ## 6. Chapter B — Renaissance Italy: "The Vanishing Point"
 
-**Feel:** golden hour over a stone piazza; the world only makes sense from the right angle.
-**Mechanic spotlight — perspective itself:** the era's real breakthrough is the puzzle. Structures resolve into a walkable whole only from one viewpoint (the vanishing point); you move the viewpoint to snap fragments into a building. Linear perspective and anamorphosis are the toolkit.
+**Feel:** A vast stone interior holds its breath. The world only makes sense from one angle — find it, and geometry snaps into coherence with the quiet authority of a mathematical proof. This is the most intellectually satisfying chapter in the game, and its originality is structural: the era's actual breakthrough (linear perspective, anamorphosis, the self-supporting structure) *is* the puzzle mechanic. There is no other calm game that has done this.
 
-| Beat | What you do | Illusion | Signature sound |
+**Three design pivots (carried through the whole chapter):**
+- **Cognitive ASMR first.** The primary trigger is the *perspective snap* — the moment a jumble of fragments resolves into a building. That cognitive click carries a paired audio bloom and haptic. The gesture (rotating a viewpoint, snapping a chalk-line) is secondary to the resolution.
+- **Acoustic space is the BED.** Not weather. The constant presence is the resonance of stone — standing waves, choir breath, the way sound lengthens and pools in cathedral air. Nothing like any other calm game's soundscape.
+- **Calm mode is the bottega.** The workshop at dusk: close-mic quill on parchment, dividers on stone, a sketchbook page turning, pigment being ground. Intimate, dry, private. The exact opposite of Edo's lush outdoor rain.
+
+**Mechanic spotlight — perspective itself:** Structures resolve into a walkable whole only from one viewpoint; you move the viewpoint to snap fragments into a building. Linear perspective and anamorphosis are the toolkit. Each resolution event is treated as an ASMR trigger — the cognitive "click" paired with a reverb bloom, a stone-settle tone, and a haptic that rewards the brain's pattern-completion.
+
+| Beat | What you do | Illusion | Signature ASMR trigger |
 |---|---|---|---|
-| 1. Apprentice's easel | Rotate the viewpoint until a broken colonnade lines up at the vanishing point | Forced perspective (tutorial) | Charcoal, easel creak, fountain |
-| 2. Anamorphic floor | Find the one oblique angle where floor fragments resolve into a staircase | Anamorphosis (the Holbein trick) | Marble taps, piazza echo, pigeons, far bell |
-| 3. Vanishing stair | Walk a stair whose converging lines make top and bottom connect | Penrose ascent via one-point perspective | Stone steps, chisel taps echoing, fresco hush |
-| 4. The workshop | Assemble Leonardo's self-supporting bridge / geared lift; raise a platform | Mechanical, tactile geometry | Wooden gears, rope-and-pulley, dividers tick, quill |
-| 5. Fresco wall | Trace orthogonals to the vanishing point; drawn lines become real beams | Painted illusion made solid | Brush on wet plaster, chalk snap-line, water in pigment, far choir |
-| 6. The dome | Align herringbone courses & the oculus to flood the dome with light | Convergence resolves (finale) | Vast reverb, one sustained choral note, wind at the oculus, bells |
+| 1. Apprentice's easel | Rotate the viewpoint until a broken colonnade aligns at the vanishing point | Forced perspective (tutorial) | The alignment snap — charcoal line, stone-settle bloom, first haptic resolution |
+| 2. Anamorphic floor | Find the one oblique angle where distorted floor fragments resolve into a staircase | Anamorphosis (the Holbein trick) | Pure cognitive ASMR — a shape that was nonsense becomes a staircase in one step; an organ fundamental arriving |
+| 3. Vanishing stair | Walk a stair whose converging lines make top and bottom connect | Penrose ascent via one-point perspective | Footsteps that generate their own echo before you reach the step; space contradicting itself, calmly |
+| 4. The workshop | Assemble Leonardo's self-supporting bridge / geared lift; raise a platform | Mechanical, tactile geometry | Wooden joints locking (no nails) — each piece tightens the next; the mechanical ASMR of a system finding equilibrium |
+| 5. Fresco wall | Trace orthogonals to the vanishing point; drawn lines become real beams | Painted illusion made solid | Chalk snap-line thwack; choir chord building one held note per correct orthogonal (see §14.1) |
+| 6. The dome | Align herringbone courses & the oculus to flood the dome with light | Convergence resolves (finale) | Acoustic bloom: as the oculus centres, the BED reverb fully opens — one sustained organ note fills the dome, felt as much as heard |
 
-**Foley to field-record:** quill scratch; charcoal & chalk on paper; chalk snap-line; fresco brush on wet plaster; pigment ground in a mortar; marble chisel taps (several weights); wooden dividers tick on parchment; heavy page-turns; wooden gears creaking; rope-and-pulley strain; courtyard fountain; piazza ambience (flagstone steps, pigeons, low murmur); church bells (several sizes); sustained organ/choral drone; guttering candle; cathedral-interior reverb.
+**Foley to field-record:**
 
-**Hour-cards (lore):** *The vanishing point* (Brunelleschi, ~1420) · *Orthogonals* (guide-lines to the vanishing point) · *The hidden shape* (anamorphosis; Holbein's skull) · *Leonardo's bridge* (self-supporting, no nails) · *The impossible dome* (herringbone spiral, no full frame) · *Painting into the wall* (buon fresco) · *The workshop* (botteghe & apprentices) · *Ideas, multiplied* (the press & humanism).
+*BED-priority (acoustic space — highest session priority):*
+Cathedral interior room tone (multiple capture positions: near/mid/far from oculus); pipe organ lowest pedal tone (long sustain, dry room); choir breath/drone stem (wordless, very slow vibrato, close-mic); stone-hall reverb impulse response capture; wind through a high stone aperture.
+
+*TRIGGER (Calm/Journey interactions):*
+Quill scratch — close-mic, dry (bottega Calm primary); wooden compass/dividers tick on parchment; charcoal on rough stone wall; heavy sketchbook page-turn; pigment ground in a ceramic mortar; chalk snap-line thwack; fresco brush on wet plaster; marble chisel taps (several weights); wooden gear teeth engaging; rope-and-pulley under load; wooden beam joint locking under compression (the "no nails" settle); marble footsteps (several surfaces).
+
+*ACCENT:*
+Church bell (several sizes, long decay — record in large reverberant space); sustained choral swell (wordless); single organ chord resolving.
+
+*Lower priority (library supplement acceptable):*
+Courtyard fountain, piazza ambience — these appear briefly in exterior moments only; the chapter lives indoors.
+
+**Calm mode:** The bottega at dusk — touch the quill for a scratch on parchment, the dividers for a tick on stone, the mortar for a pigment grind, the sketchbook for a heavy page-turn. The BED is the room tone of a low stone ceiling — close and warm, not vast cathedral air. A far campanile chimes occasionally, unprompted. The generative build (§10.2) layers the organ pad and a sparse lute phrase as engagement rises.
+
+**Sleep mode:** The cathedral interior at night — BED is a sustained organ pedal tone and very slow choir breath, nearly subsonic. Candles go out one by one in the visual. A single bell at lengthening intervals. The dome oculus darkens through dusk to stars to black. No discrete triggers fire after phase 1.
+
+**Hour-cards (lore):**
+
+*The vanishing point* — Filippo Brunelleschi proved it around 1420 with a painted panel and a mirror: stand in exactly the right spot, and a picture of a building perfectly matches the building behind it.
+
+*Orthogonals* — The invisible parallel lines that seem to converge at the horizon; every Renaissance artist used them as scaffolding, pulling the viewer's eye to exactly where it was meant to land.
+
+*The hidden shape* — Anamorphosis: paint something so distorted it reads as a floor stain — until you crouch at one low oblique angle, and it resolves perfectly. Hans Holbein hid a skull this way in *The Ambassadors*, 1533.
+
+*Leonardo's bridge* — A self-supporting arch assembled from interlocking beams, no nails, no glue; press one piece and it locks the rest tighter, not looser. Leonardo sketched it in a notebook and never built it full-scale.
+
+*The impossible dome* — Brunelleschi raised the Florence dome without a full timber framework, using a double shell and herringbone brick courses that supported themselves as they rose — an engineering method he invented on the scaffold and never fully wrote down.
+
+*Painting into the wall* — Buon fresco: pigment pressed into wet lime plaster, becoming chemically part of the wall as it sets. Each section must be finished in a single day. There is no correcting it once it dries.
+
+*The workshop* — A Renaissance bottega took apprentices at ten years old; they ground pigment, stretched canvas, and copied the master for years before touching a commission. Everything they made carried his name.
+
+*Ideas, multiplied* — Gutenberg's press reached Italy by the 1460s; within a generation, a scholar in Florence and one in Cracow could read the same text, annotate the same margins, argue about the same line. The Renaissance spread at the speed of paper.
 
 ---
 
@@ -683,5 +722,106 @@ on idle (engagement < 5, sustained > 5 s):
 - *Aevum has no ads, no streaks, no timers, and no way to fail.* It will never send you a notification asking you to return.
 - **Reset all sound settings to defaults** — one tap, confirmation dialog.
 - **Accessibility feedback** — link to support / feedback channel.
+
+---
+
+### 14.9 Renaissance beat storyboards — beats 1–4 and 6
+
+*(Beat 5 "The Fresco Wall" is in §14.1. All six beats now fully storyboarded.)*
+
+---
+
+#### Beat 1 — "The Apprentice's Easel" (tutorial)
+
+**Goal:** A broken colonnade lies in a sun-bleached courtyard. An easel holds a half-drawn perspective study. By rotating the viewpoint — moving around the easel until the drawn vanishing lines align with the real fragments — the colonnade snaps into order. This is the tutorial: one mechanic, one affordance, one cognitive snap.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Camera drifts into a bright courtyard; the colonnade behind is broken, fragments scattered. An easel with a charcoal study stands alone. The Keeper arrives at the edge. Nothing is highlighted yet. | Quiet piazza; far fountain; pigeons; cathedral room tone entering from the archway beyond. | Establish goal and mood — no affordance given yet, let the player look. |
+| 2 | Player touches the easel. The charcoal drawing shifts slightly — a hint that the viewpoint, not the drawing, is the tool. A very faint glow at the drawn vanishing point. | Easel creak; charcoal scratch; light haptic tap. | Introduce the tool; establish that the drawing responds to position. |
+| 3 | Player moves. Fragment edges begin to drift toward the perspective lines — partial, almost there, not yet locked. The courtyard feels like it is listening. | Stone-shuffle footstep; room tone deepens slightly. | Teach: moving the viewpoint moves the geometry. |
+| 4 | One fragment clicks fully into alignment — it resolves from rubble into one clean column. First cognitive snap. A small reverb bloom opens. | A soft stone-settle resonance; reverb blooms briefly; short haptic bloom. | First taste of the chapter's primary ASMR trigger — the cognitive click, not the gesture. |
+| 5 | Player continues. Each subsequent alignment adds one quiet choir breath to the room. The courtyard is accumulating presence. | Each column resolution adds one very low sustained tone; haptic per snap. | The BED building with progress — acoustic space responding to discovery. |
+| 6 | Final alignment: all columns resolve simultaneously. The viewpoint locks gently. A complete colonnade stands where rubble was. | Reverb bloom; a single sustained organ chord; haptic bloom — the largest yet, still soft. | Full cognitive snap — the chapter's defining moment, first full expression. |
+| 7 | Keeper walks through the colonnade; it holds. Beyond it, an archway opens to the next space. Footsteps on stone echo cleanly through the solved geometry. | Footsteps on flagstone; reverb tail; the chord fading to room tone. | Resolution confirmed — the solved space is walkable, permanent. |
+| 8 | Hour-card ("The vanishing point") surfaces, optional, softly whispered. Camera exhales back to show the whole courtyard with the colonnade in place. Diorama snapshot saves to Calm mode. | Whispered card (opt-in); ambient settles to bottega BED — quill, room tone. | Reward, lore, transition, Calm-mode unlock. |
+
+Design notes: only one interactive affordance exists at this beat; the player cannot fail. If idle ~20s, the drawn vanishing point pulses very faintly. Nothing is timed.
+
+---
+
+#### Beat 2 — "The Anamorphic Floor"
+
+**Goal:** A long hall whose floor is covered in distorted painted shapes — none legible from above. By finding the one low oblique angle (moving to a specific worn mark on the far wall and crouching), all the shapes resolve into a single coherent staircase. Pure anamorphosis — the Holbein beat. The most original single moment in the chapter.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Keeper enters a long stone hall. The floor is a confusion of stretched painted shapes — blobs, elongated forms, nothing readable. The only hint: a small worn mark on the far wall at baseboard height. | Marble footsteps; cathedral room tone full; one distant bell. | Establish disorientation as the starting state — nothing makes sense, intentionally. |
+| 2 | Player walks across the floor. Shapes shift in perspective but remain distorted from above. The worn mark pulses once, very gently, then stops. | Footsteps on marble; room tone; no resolution sounds yet. | Invite exploration; hint at the target position without explaining it. |
+| 3 | Player moves toward the mark and begins to lower the viewpoint. Shapes stretch differently — something is happening, approaching coherence but not there yet. | A low barely-audible tone begins, almost subsonic — not musical yet, just a presence. | The approach: sound signals that something is changing before the eye catches it. |
+| 4 | Player reaches the exact spot and crouches to the correct angle. In one sudden, complete movement — all the distorted shapes resolve into a perfect staircase descending into the floor. | The subsonic tone arrives as a clean organ fundamental; full reverb bloom; strong haptic — the largest so far. | The chapter's most original cognitive snap: total resolution from total chaos in one step. |
+| 5 | The staircase glows with coherence. Keeper's posture shifts to descend. The hall, from this angle, is perfectly still and legible. | The organ tone holds; one choir breath layer adds; haptic settles. | Hold the moment — let the player stay in the resolved state before acting. |
+| 6 | Keeper descends. As long as the angle is maintained, the staircase holds. Walking normally collapses it — the player must move carefully, keeping the oblique view. | Footsteps on stone; marble resonance; tone breathing slowly. | The mechanic extends into movement — not just a find-the-spot puzzle but a sustained act. |
+| 7 | Keeper reaches the floor below. The staircase behind slowly un-resolves — shapes stretching back to distortion as the angle is lost. The hall above is beautiful nonsense again. | The organ tone releases and decays; one bell; footsteps on lower floor. | Show the illusion from the other side — the resolved and unresolved coexist. |
+| 8 | Hour-card ("The hidden shape") surfaces. Camera rises to show the hall from above — the distorted shapes visible, now beautiful in their senselessness. Diorama snapshot. | Whispered card (opt-in); ambient settles. | Reward, lore, transition. |
+
+Design notes: if idle ~20s, the worn mark pulses once more. If idle ~45s, the subsonic tone sounds briefly on its own — a gentle prompt. No fail state: the viewpoint resets freely.
+
+---
+
+#### Beat 3 — "The Vanishing Stair"
+
+**Goal:** A Penrose stair built by one-point perspective — converging lines make the top and bottom of the stair occupy the same visual position. The Keeper ascends and arrives exactly where they started, one story higher. The act of walking is the mechanic: the stair only extends while moving; pausing freezes it; retreating returns it. A breathing-bridge beat — meditative, not puzzle-heavy.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Keeper arrives at a narrow stone stair in a dim corridor. The stair appears impossibly compact — top and bottom both visible at the same height. It doesn't look like much. | Stone steps echo; very quiet room tone; one candle gutters. | Understate the beat's entrance — the stair looks modest before it reveals itself. |
+| 2 | Keeper begins ascending. Each step taken makes the stair extend — as perspective converges forward, new steps appear beyond. | Each footstep generates a faint echo that arrives before the sound should — space gently contradicting itself. | Introduce the impossible geometry through sound before the eye fully catches it. |
+| 3 | Player pauses. The stair freezes — perspective holds but no new steps appear. The corridor is very still. | Footsteps stop; room tone held; one long slow breath (the breathing-bridge cue). | Teach: forward movement is the mechanic. Rest is permitted — it simply waits. |
+| 4 | Player resumes. A rhythm emerges — each footfall a beat, the stair responding. A quiet organ pad enters, quantized to the player's pace. | Footsteps; echo building; organ pad entering at the first long stride. | The meditation mode of the beat — walk, breathe, ascend. |
+| 5 | Midpoint: a window ledge opens on one side — brief golden exterior light and a view of rooftops at an impossible height. Then the corridor continues. | Brief outdoor ambience; one campanile strike; then interior room tone resumes. | A breath of the outside world; scale revealed; then back in. |
+| 6 | Final steps converge. Top and bottom connect — the loop closes. Keeper takes the last step and arrives exactly where they began, now one story higher. The geometry resolves into permanence. | A soft harmonic resolution; footsteps landing on new stone; one light haptic tap. | The impossible proved: the stair worked. Arrival at the top feels earned, quietly. |
+| 7 | Keeper looks back down the impossible closed loop. Below is where they started. Neither makes spatial sense; both are calm. | Room tone; far choir breath; one organ tone settling and releasing. | The aftermath — hold the paradox without urgency. |
+| 8 | Hour-card ("Orthogonals") surfaces. Diorama snapshot of the stair from above — its impossible geometry beautiful from outside the logic. | Whispered card (opt-in); ambient settles. | Reward, lore, transition. |
+
+Design notes: the only nudge needed is the breathing-bridge cue at ~20s idle — one slow breath sound. The stair never collapses; pausing is always safe. No fail state.
+
+---
+
+#### Beat 4 — "The Workshop"
+
+**Goal:** In a dusty bottega, Keeper assembles Leonardo's self-supporting bridge across a gap in the floor — interlocking wooden beams, no nails, each piece locking the others tighter. Then a wooden-peg gear train raises a platform to access the fresco wall beyond. The chapter's most tactile, mechanical beat — the joints and gears are the ASMR triggers.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Keeper enters the bottega. Wooden beams lie scattered; a gap breaks the floor ahead. On the wall: a sketch of Leonardo's bridge design — visible but not interactive. Quill and dividers on a workbench nearby. | Wooden floor creak; low room tone; quill-scratch ambient as if someone just left; dividers clicking on a table. | Establish the intimate workshop BED — close, dry, personal. Introduce both the goal and the bottega atmosphere. |
+| 2 | Player picks up the first beam. It has notched ends — clearly shaped to interlock with something. Sound follows the weight of the wood. | Wood scraping on stone floor; a hollow tap on the beam's end; haptic grain texture. | Introduce the object — its weight and texture communicated through sound before placement. |
+| 3 | Player places the first beam. The joint settles with a wooden "cluck" — the beams compress slightly, locking each other. | Wooden joint engaging; a short low haptic pulse — the "no nails" lock. | First experience of the core mechanic: placing locks, not just positions. |
+| 4 | Player tries a wrong beam next. The joint pops gently undone — the structure creaks but holds, ready to retry. No collapse, no penalty. | A soft wooden pop; a creak as the structure redistributes; no alarm tone. | Teach: the sequence matters; retrying is free; the structure is patient. |
+| 5 | Player finds the correct sequence. Each locked beam tightens the previous ones — a visible and audible compression. A rhythm: place, lock, feel. | Each locked joint adds one wooden cluck; by beam 4, a quiet full-structure creak as everything tightens together; haptic per lock. | The puzzle proper — tactile ASMR building with each correct placement. |
+| 6 | Bridge complete; it spans the gap, holding its own weight. Keeper tests it with a careful step — it holds. | First footstep on the bridge: a deeper wooden creak, then a settle as weight distributes; haptic bloom. | The "no nails" promise kept — the structure works because the geometry is correct. |
+| 7 | Player engages the gear train on the far side: wooden-peg gears turn a rope drum, raising the platform. Each gear tooth engaging is a discrete tick. | Wooden gear teeth ticking; rope under load (a slow creak); platform rising; a final clunk as it locks. | The second mechanical ASMR layer — gear rhythm after joint rhythm; a different texture, equally satisfying. |
+| 8 | Hour-card ("Leonardo's bridge") surfaces. Diorama snapshot of the assembled bridge in the bottega — beautiful in its plainness. | Whispered card (opt-in); workshop ambient (quill, dividers, low room tone) settles to Calm BED. | Reward, lore, transition; bottega confirmed as the Calm-mode home. |
+
+Design notes: beam placement is always undoable; the structure never permanently breaks. If idle ~20s, the next correct beam gets a faint warm highlight. Nothing timed.
+
+---
+
+#### Beat 6 — "The Dome"
+
+**Goal:** The Keeper stands inside an unfinished dome. The herringbone brick courses are laid but misaligned — the oculus is off-centre, light entering obliquely. By rotating the courses (turn rings of the dome like a globe) into the correct spiral alignment, the oculus centres and a vertical column of light floods the interior. The acoustic BED fully opens as the oculus aligns — this is the payoff of the chapter's entire reverb arc.
+
+| # | What happens (camera · world · player) | Sound & haptic | Purpose |
+|---|---|---|---|
+| 1 | Camera rises into the dome from below — vast, magnificent, fractured. Herringbone courses slightly misaligned; the oculus off-centre; light entering at the wrong angle. Keeper stands far below on the floor. | Cathedral room tone at its fullest; choir drone at maximum presence; low organ pedal; wind through the misaligned oculus. | Establish scale and the chapter's accumulated acoustic space — this is the BED at full height before the resolution. |
+| 2 | Player touches the dome wall. A herringbone course is highlighted — it can be rotated, dragging the spiral like a ring of a globe. | A deep stone-on-stone grind, slow; low haptic pulse. | Introduce the mechanic — the dome is interactive, enormous, and patient. |
+| 3 | Player aligns the first course. It settles into the correct spiral; a band of light shifts slightly toward centre. | Stone settle; one choir tone brightening one step; short haptic bloom. | First partial resolution — the dome responding, the BED shifting. |
+| 4 | Courses are interdependent — each aligned course constrains the next, like a lock tumbler. The correct sequence tightens progressively. | Each course alignment adds one organ tone to the building chord; the reverb lengthens with each step. | The puzzle at full strength — the acoustic and the geometry advancing together. |
+| 5 | Two courses remain. The dome is mostly aligned; the oculus is close to centre; the light shaft nearly vertical. The chord is four voices — choir and organ together. | Chord holding all four voices; reverb at maximum length; the whole space is resonating. | The penultimate moment — hold the near-resolution, let the player feel the anticipation. |
+| 6 | Final course aligned. The oculus centres exactly. Light pours vertically into the dome — a perfect column of golden air descending to the floor. | The chord resolves — all voices finding their root simultaneously; a vast reverb bloom; one long bell tone beginning its decay. | The chapter's full resolution: acoustic, visual, and cognitive at once. |
+| 7 | Keeper tips their head back, looking up the light column at open sky. The courses are still, permanent. The dome exhales. | The bell tone sustains and decays slowly; choir breath thins to a single low hum; the room tone settles into a new, warmer key. | The aftermath — hold the resolved space; let the acoustic bloom complete without cutting it short. |
+| 8 | The era remembers itself: the whole interior fills with reflected light. All 8 hour-cards unlock. Hour-card ("The impossible dome") surfaces. Camera rises through the oculus and out above the dome — then cuts to the close, warm bottega BED, the Calm-mode home. Diorama snapshot. | Whispered card (opt-in); a final quiet organ note; ambient settles to bottega room tone — inside, not outside. | Full resolution: reward, lore, all cards unlocked, Calm-mode confirmed as the bottega. The chapter ends where it began — intimate, close, quiet. |
+
+Design notes: no fail state — courses rotate freely in either direction. If idle ~20s on any course, that course's leading edge brightens. If idle ~45s, the light shaft drifts slightly further toward centre, hinting at the correct rotation direction. Nothing is timed. The acoustic bloom in frame 6 is the longest single audio event in the game — do not shorten it.
 
 ---
